@@ -30,15 +30,15 @@ import (
 )
 
 type Config struct {
-	Db     *Db
-	Server *Server
+	Db     *db
+	Server *server
 }
 
-type Server struct {
+type server struct {
 	Port int
 }
 
-type Db struct {
+type db struct {
 	Host     string
 	Port     int
 	User     string

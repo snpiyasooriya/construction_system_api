@@ -3,7 +3,7 @@ package database
 import (
 	"fmt"
 	"github.com/snpiyasooriya/construction_design_api/config"
-	"github.com/snpiyasooriya/construction_design_api/internal/domain/interfaces"
+	"github.com/snpiyasooriya/construction_design_api/internal/interfaces"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"sync"

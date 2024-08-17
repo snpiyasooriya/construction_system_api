@@ -1,9 +1,9 @@
-package entities
+package dtos
 
 import "time"
 
-type User struct {
-	ID        uint      `json:"id"`
+type UserDTO struct {
+	ID        uint      `json:"id,omitempty"`
 	FirstName string    `json:"first_name"`
 	LastName  string    `json:"last_name"`
 	Email     string    `json:"email"`
@@ -12,7 +12,7 @@ type User struct {
 	NIC       string    `json:"nic"`
 	Password  string    `json:"password"`
 	Role      string    `json:"role"`
-	CreatedAt time.Time `json:"created_at"`
-	UpdatedAt time.Time `json:"updated_at"`
-	DeletedAt time.Time `json:"deleted_at"`
+	CreatedAt time.Time `json:"created_at,omitempty"`
+	UpdatedAt time.Time `json:"updated_at,omitempty"`
+	DeletedAt time.Time `json:"deleted_at,omitempty"`
 }
