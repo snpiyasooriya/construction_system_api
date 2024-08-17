@@ -27,7 +27,7 @@ func (uc *UserController) CreateUser(c *gin.Context) {
 		LastName:  user.LastName,
 		Email:     user.Email,
 		Phone:     user.Phone,
-		DOB:       dto.Date{},
+		DOB:       user.DOB,
 		NIC:       user.NIC,
 		Password:  user.Password,
 		Role:      user.Role,

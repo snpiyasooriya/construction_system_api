@@ -28,12 +28,12 @@ func (d Date) ToTime() time.Time {
 }
 
 type UserCreateDTO struct {
-	FirstName string `json:"first_name"`
-	LastName  string `json:"last_name"`
-	Email     string `json:"email"`
-	Phone     string `json:"phone"`
-	DOB       Date   `json:"dob"`
-	NIC       string `json:"nic"`
-	Password  string `json:"password"`
-	Role      string `json:"role"`
+	FirstName string    `json:"first_name"`
+	LastName  string    `json:"last_name"`
+	Email     string    `json:"email"`
+	Phone     string    `json:"phone"`
+	DOB       time.Time `json:"dob"`
+	NIC       string    `json:"nic"`
+	Password  string    `json:"password"`
+	Role      string    `json:"role"`
 }

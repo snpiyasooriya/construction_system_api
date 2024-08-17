@@ -26,7 +26,7 @@ func (g *GormUserRepository) CreateUser(user entities.User) (*entities.User, err
 }
 
 func (g *GormUserRepository) GetUserByID(id int) (*entities.User, error) {
-	var gormUser models.GormUser
+	var gormUser models.User
 	if err := g.db.First(&gormUser, id).Error; err != nil {
 		return nil, err
 	}
@@ -35,14 +35,14 @@ func (g *GormUserRepository) GetUserByID(id int) (*entities.User, error) {
 }
 
 func (g *GormUserRepository) DeleteUserByID(id int) error {
-	if err := g.db.Delete(&models.GormUser{}, id).Error; err != nil {
+	if err := g.db.Delete(&models.User{}, id).Error; err != nil {
 		return err
 	}
 	return nil
 }
 
 func (g *GormUserRepository) GetAllUsers() ([]entities.User, error) {
-	var gormUsers []models.GormUser
+	var gormUsers []models.User
 	if err := g.db.Find(&gormUsers).Error; err != nil {
 		return nil, err
 	}

@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-type GormUser struct {
+type User struct {
 	gorm.Model
 	FirstName string
 	LastName  string
@@ -18,7 +18,7 @@ type GormUser struct {
 	Role      string
 }
 
-func (u *GormUser) ToEntity() entities.User {
+func (u *User) ToEntity() entities.User {
 	return entities.User{
 		ID:        u.ID,
 		FirstName: u.FirstName,
@@ -35,8 +35,8 @@ func (u *GormUser) ToEntity() entities.User {
 	}
 }
 
-func FromUserEntity(e entities.User) GormUser {
-	return GormUser{
+func FromUserEntity(e entities.User) User {
+	return User{
 		Model: gorm.Model{
 			ID:        e.ID,
 			CreatedAt: e.CreatedAt,
