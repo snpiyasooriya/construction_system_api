@@ -5,35 +5,39 @@ import (
 	"time"
 )
 
-type Date time.Time
-
-// MarshalJSON converts the Date to a string in the "YYYY-MM-DD" format
-func (d Date) MarshalJSON() ([]byte, error) {
-	return []byte(fmt.Sprintf(`"%s"`, time.Time(d).Format("2006-01-02"))), nil
+type UserCreateDTO struct {
+	FirstName string     `json:"first_name" validate:"required,min=4,max=15"`
+	LastName  string     `json:"last_name"  validate:"required,min=4,max=15"`
+	Email     string     `json:"email"  validate:"required,email"`
+	Phone     string     `json:"phone"  validate:"required"`
+	DOB       CustomDate `json:"dob" validate:"required"`
+	NIC       string     `json:"nic"  validate:"required"`
+	Password  string     `json:"password"  validate:"required"`
+	Role      string     `json:"role"  validate:"required"`
 }
 
-// UnmarshalJSON parses a string in the "YYYY-MM-DD" format to a Date
-func (d *Date) UnmarshalJSON(data []byte) error {
-	parsedTime, err := time.Parse(`"2006-01-02"`, string(data))
+type CustomDate time.Time
+
+const customDateLayout = "2006-01-02"
+
+func (cd *CustomDate) UnmarshalJSON(b []byte) error {
+	str := string(b)
+	// Remove quotes around the date string
+	str = str[1 : len(str)-1]
+
+	parsedTime, err := time.Parse(customDateLayout, str)
 	if err != nil {
-		return err
+		return fmt.Errorf("error parsing date: %v", err)
 	}
-	*d = Date(parsedTime)
+
+	*cd = CustomDate(parsedTime)
 	return nil
 }
 
-// ToTime converts the custom Date type back to a time.Time
-func (d Date) ToTime() time.Time {
-	return time.Time(d)
+func (cd CustomDate) MarshalJSON() ([]byte, error) {
+	return []byte(fmt.Sprintf("\"%s\"", time.Time(cd).Format(customDateLayout))), nil
 }
 
-type UserCreateDTO struct {
-	FirstName string    `json:"first_name"`
-	LastName  string    `json:"last_name"`
-	Email     string    `json:"email"`
-	Phone     string    `json:"phone"`
-	DOB       time.Time `json:"dob"`
-	NIC       string    `json:"nic"`
-	Password  string    `json:"password"`
-	Role      string    `json:"role"`
+func (cd CustomDate) ToTime() time.Time {
+	return time.Time(cd)
 }

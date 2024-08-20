@@ -38,7 +38,7 @@ func (uc *userCreateUseCaseImpl) Execute(input dto.UserCreateDTO) (*entities.Use
 		LastName:  input.LastName,
 		Email:     input.Email,
 		Phone:     input.Phone,
-		DOB:       input.DOB,
+		DOB:       input.DOB.ToTime(),
 		NIC:       input.NIC,
 		Password:  hashedPassword,
 		Role:      input.Role,
