@@ -2,9 +2,10 @@ package controllers
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/snpiyasooriya/construction_design_api/internal/domain/entities"
 	"github.com/snpiyasooriya/construction_design_api/internal/dto"
+	httpDTO "github.com/snpiyasooriya/construction_design_api/internal/infrastructre/http/dto"
 	"github.com/snpiyasooriya/construction_design_api/internal/usecases"
+	"github.com/snpiyasooriya/construction_design_api/pkg/utils"
 	"net/http"
 )
 
@@ -17,21 +18,29 @@ func NewUserController(userCreateUseCase usecases.UserCreateUseCase) *UserContro
 }
 
 func (uc *UserController) CreateUser(c *gin.Context) {
-	var user entities.User
-	if err := c.ShouldBindJSON(&user); err != nil {
+	var userCreateHttpDTO httpDTO.UserCreateDTO
+	if err := c.Bind(&userCreateHttpDTO); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	userCreateDTO := dto.UserCreateDTO{
-		FirstName: user.FirstName,
-		LastName:  user.LastName,
-		Email:     user.Email,
-		Phone:     user.Phone,
-		DOB:       user.DOB,
-		NIC:       user.NIC,
-		Password:  user.Password,
-		Role:      user.Role,
+
+	// Validate the input
+	if validationErrors := utils.CustomValidationErrors(userCreateHttpDTO); validationErrors != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"validationErrors": validationErrors})
+		return
 	}
+
+	userCreateDTO := dto.UserCreateDTO{
+		FirstName: userCreateHttpDTO.FirstName,
+		LastName:  userCreateHttpDTO.LastName,
+		Email:     userCreateHttpDTO.Email,
+		Phone:     userCreateHttpDTO.Phone,
+		DOB:       userCreateHttpDTO.DOB.ToTime(),
+		NIC:       userCreateHttpDTO.NIC,
+		Password:  userCreateHttpDTO.Password,
+		Role:      userCreateHttpDTO.Role,
+	}
+
 	createdUser, err := uc.userCreateUseCase.Execute(userCreateDTO)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})

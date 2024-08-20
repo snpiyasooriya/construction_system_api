@@ -33,10 +33,15 @@ func (uc *userCreateUseCaseImpl) Execute(input dto.UserCreateDTO) (*entities.Use
 
 	// Convert DTO to entity
 	user := entities.User{
+		ID:        0,
 		FirstName: input.FirstName,
 		LastName:  input.LastName,
 		Email:     input.Email,
+		Phone:     input.Phone,
+		DOB:       input.DOB,
+		NIC:       input.NIC,
 		Password:  hashedPassword,
+		Role:      input.Role,
 	}
 
 	// Save the user using the repository
