@@ -52,3 +52,12 @@ func (g *GormUserRepository) GetAllUsers() ([]entities.User, error) {
 	}
 	return users, nil
 }
+
+func (g *GormUserRepository) GetUserByEmail(email string) (*entities.User, error) {
+	var gormUser models.User
+	if err := g.db.Where("email = ?", email).First(&gormUser).Error; err != nil {
+		return nil, err
+	}
+	userEntity := gormUser.ToEntity()
+	return &userEntity, nil
+}

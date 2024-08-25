@@ -58,6 +58,6 @@ func FromUserEntity(e entities.User) User {
 func ConvertTimeToDeletedAt(t time.Time) gorm.DeletedAt {
 	return gorm.DeletedAt{
 		Time:  t,
-		Valid: !t.IsZero(), // Set Valid to true if t is not the zero time
+		Valid: !t.IsZero(),
 	}
 }

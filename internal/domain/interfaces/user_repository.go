@@ -7,4 +7,5 @@ type UserRepository interface {
 	GetUserByID(id int) (*entities.User, error)
 	DeleteUserByID(id int) error
 	GetAllUsers() ([]entities.User, error)
+	GetUserByEmail(email string) (*entities.User, error)
 }
