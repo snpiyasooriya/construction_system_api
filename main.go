@@ -13,19 +13,19 @@ import (
 )
 
 func main() {
+
 	conf := config.GetConfig()
 	db := database.NewPostgres(conf).GetDb()
 	migrations.AutoMigrate(db)
 	var userRepo interfaces2.UserRepository
 	userRepo = repository.NewGormUserRepository(db)
-	// Initialize your use cases
 	userCreateUseCase := usecases.NewUserCreateUseCase(userRepo)
-
-	// Initialize your controllers
 	userController := controllers.NewUserController(userCreateUseCase)
 
+	loginUseCase := usecases.NewLoginUseCaseImpl(userRepo)
+	authenticationController := controllers.NewAuthenticationController(loginUseCase)
 	var server interfaces.Server
-	server = server2.NewGinServer(conf, userController)
+	server = server2.NewGinServer(conf, userController, authenticationController)
 	server.Start()
 
 }

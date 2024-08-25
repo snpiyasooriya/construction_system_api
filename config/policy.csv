@@ -1,0 +1,3 @@
+p, admin, *, *
+p, user, data1, read
+g, alice, admin

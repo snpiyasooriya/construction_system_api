@@ -13,9 +13,9 @@ type GinServer struct {
 	port   int
 }
 
-func NewGinServer(conf *config.Config, userController *controllers.UserController) *GinServer {
+func NewGinServer(conf *config.Config, userController *controllers.UserController, authenticationController *controllers.AuthenticationController) *GinServer {
 	router := gin.Default()
-	routes.InitRoutes(router, userController)
+	routes.InitRoutes(router, userController, authenticationController)
 	return &GinServer{
 		router: router,
 		port:   conf.Server.Port,
