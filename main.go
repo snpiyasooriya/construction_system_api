@@ -9,6 +9,7 @@ import (
 	"github.com/snpiyasooriya/construction_design_api/internal/infrastructre/http/controllers"
 	server2 "github.com/snpiyasooriya/construction_design_api/internal/infrastructre/http/server"
 	"github.com/snpiyasooriya/construction_design_api/internal/interfaces"
+	"github.com/snpiyasooriya/construction_design_api/internal/services"
 	"github.com/snpiyasooriya/construction_design_api/internal/usecases"
 )
 
@@ -24,8 +25,17 @@ func main() {
 
 	loginUseCase := usecases.NewLoginUseCaseImpl(userRepo)
 	authenticationController := controllers.NewAuthenticationController(loginUseCase)
+	projectRepo := repository.NewGORMProjectRepository(db)
+	projectCreateUseCase := usecases.NewProjectCreateUseCaseImpl(projectRepo)
+	projectsGetUseCase := usecases.NewProjectsGetUseCaseImpl(projectRepo)
+	projectService := services.NewProjectCreateService(projectCreateUseCase)
+	projectController := controllers.NewProjectController(projectService, projectsGetUseCase)
+	//var projectTypeRepo interfaces2.ProjectTypeRepository
+	//projectTypeRepo = repository.NewProjectTypeGORMRepository(db)
+	//projectTypeCreateUseCase := usecases.NewProjectTypeCreateUseCase(projectTypeRepo)
+	//projectTypeController := controllers.NewProjectTypeController(projectTypeCreateUseCase)
 	var server interfaces.Server
-	server = server2.NewGinServer(conf, userController, authenticationController)
+	server = server2.NewGinServer(conf, userController, authenticationController, projectController)
 	server.Start()
 
 }

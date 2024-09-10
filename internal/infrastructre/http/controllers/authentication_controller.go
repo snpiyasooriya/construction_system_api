@@ -38,7 +38,7 @@ func (ac *AuthenticationController) Login(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
-	domain := "yourdomain.com"
+	domain := "ratko.co"
 	secure := true
 
 	if gin.Mode() == gin.DebugMode { // or some other environment check

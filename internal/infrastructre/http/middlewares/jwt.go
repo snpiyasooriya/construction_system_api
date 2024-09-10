@@ -8,6 +8,7 @@ import (
 )
 
 func JWTAuthentication(secretKey string) gin.HandlerFunc {
+	fmt.Println(secretKey)
 	return func(c *gin.Context) {
 		tokenString, err := c.Cookie("jwt")
 		if err != nil {
