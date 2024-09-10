@@ -3,25 +3,41 @@ package routes
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/snpiyasooriya/construction_design_api/internal/infrastructre/http/controllers"
-	"github.com/snpiyasooriya/construction_design_api/internal/infrastructre/http/middlewares"
 )
 
-func InitRoutes(router *gin.Engine, userController *controllers.UserController, authenticationController *controllers.AuthenticationController) {
-	router.GET("/ping", controllers.Ping)
-	router.POST("/login", authenticationController.Login)
-
-	// Apply JWT authentication middleware globally
-	secretKey := "ct_sys_api_root"
-	router.Use(middlewares.JWTAuthentication(secretKey))
-	router.Use(middlewares.CabinMiddleware())
-	protectedRoutes := router.Group("/")
+func InitRoutes(
+	router *gin.Engine,
+	userController *controllers.UserController,
+	authenticationController *controllers.AuthenticationController,
+	projectController *controllers.ProjectController,
+) {
+	apiRoutes := router.Group("/api")
 	{
-		userRoutes := protectedRoutes.Group("/user")
+		apiRoutes.GET("/ping", controllers.Ping)
+		apiRoutes.POST("/login", authenticationController.Login)
+
+		// Apply JWT authentication middleware globally
+		//secretKey := "ct_sys_api_root"
+		//apiRoutes.Use(middlewares.JWTAuthentication(secretKey))
+		//apiRoutes.Use(middlewares.CabinMiddleware())
+		protectedRoutes := apiRoutes.Group("/")
 		{
-			userRoutes.POST("/", userController.CreateUser)
-		}
-		_ = protectedRoutes.Group("/authentication")
-		{
+			userRoutes := protectedRoutes.Group("/user")
+			{
+				userRoutes.POST("/", userController.CreateUser)
+			}
+			//projectTypeRoutes := protectedRoutes.Group("/project_type")
+			//{
+			//	projectTypeRoutes.POST("/", projectTypeController.Create)
+			//}
+			projectRoutes := protectedRoutes.Group("/projects")
+			{
+				projectRoutes.POST("/", projectController.Create)
+				projectRoutes.GET("/", projectController.Get)
+			}
+			_ = protectedRoutes.Group("/authentication")
+			{
+			}
 		}
 	}
 }
