@@ -26,9 +26,11 @@ func main() {
 	loginUseCase := usecases.NewLoginUseCaseImpl(userRepo)
 	authenticationController := controllers.NewAuthenticationController(loginUseCase)
 	projectRepo := repository.NewGORMProjectRepository(db)
+	scheduleRepo := repository.NewGORMScheduleRepository(db)
 	projectCreateUseCase := usecases.NewProjectCreateUseCaseImpl(projectRepo)
-	projectsGetUseCase := usecases.NewProjectsGetUseCaseImpl(projectRepo)
-	projectService := services.NewProjectCreateService(projectCreateUseCase)
+	projectsGetUseCase := usecases.NewProjectsGetUseCaseImpl(projectRepo, scheduleRepo)
+	scheduleCreateUseCase := usecases.NewScheduleCreateUseCaseImpl(scheduleRepo)
+	projectService := services.NewProjectCreateService(projectCreateUseCase, scheduleCreateUseCase)
 	projectController := controllers.NewProjectController(projectService, projectsGetUseCase)
 	//var projectTypeRepo interfaces2.ProjectTypeRepository
 	//projectTypeRepo = repository.NewProjectTypeGORMRepository(db)

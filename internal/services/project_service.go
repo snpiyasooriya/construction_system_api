@@ -6,19 +6,27 @@ import (
 )
 
 type ProjectService struct {
-	projectCreateUseCase usecases.ProjectCreateUseCase
-	//scheduleCreateUseCase          usecases.ScheduleCreateUseCase
+	projectCreateUseCase  usecases.ProjectCreateUseCase
+	scheduleCreateUseCase usecases.ScheduleCreateUseCase
 	//scheduleItemCromeCreateUseCase usecases.ScheduleItemCromeCreateUseCase
 }
 
-func NewProjectCreateService(projectCreateUseCase usecases.ProjectCreateUseCase) *ProjectService {
+func NewProjectCreateService(projectCreateUseCase usecases.ProjectCreateUseCase, sheduleCreateUseCase usecases.ScheduleCreateUseCase) *ProjectService {
 	return &ProjectService{
-		projectCreateUseCase: projectCreateUseCase,
+		projectCreateUseCase:  projectCreateUseCase,
+		scheduleCreateUseCase: sheduleCreateUseCase,
 	}
 }
 
 func (ps *ProjectService) CreateProject(project dto.ProjectCreateInputDTO) error {
-	_, err := ps.projectCreateUseCase.Execute(project)
+	createdProject, err := ps.projectCreateUseCase.Execute(project)
+	if err != nil {
+		return err
+	}
+	scheduleCreateDTO := dto.ScheduleCreateInputDTO{
+		ProjectID: createdProject.ID,
+	}
+	_, err = ps.scheduleCreateUseCase.Execute(scheduleCreateDTO)
 	if err != nil {
 		return err
 	}

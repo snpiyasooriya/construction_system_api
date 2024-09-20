@@ -19,9 +19,10 @@ type ProjectsGetDTO struct {
 }
 
 type ProjectGetDTO struct {
-	ID          uint      `json:"id"`
-	Name        string    `json:"name"`
-	ProjectType string    `json:"project_type"`
-	CreatedAt   time.Time `json:"created_at"`
-	UpdatedAt   time.Time `json:"updated_at"`
+	ID            uint      `json:"id"`
+	Name          string    `json:"name"`
+	ProjectType   string    `json:"project_type"`
+	CreatedAt     time.Time `json:"created_at"`
+	UpdatedAt     time.Time `json:"updated_at"`
+	ScheduleCount int       `json:"schedule_count"`
 }

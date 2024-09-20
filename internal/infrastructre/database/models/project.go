@@ -7,5 +7,5 @@ type Project struct {
 	Name          string `gorm:"unique;not null"`
 	ProjectTypeID uint   `gorm:"not null"`
 	ProjectType   ProjectType
-	//Schedules     []Schedule
+	Schedules     []Schedule
 }

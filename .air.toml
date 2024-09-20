@@ -1,0 +1,25 @@
+# .air.toml
+
+# Configuration file for Air
+root = "."
+
+# cmd is the command for reloading.
+cmd = "go build -o ./tmp/main ./main.go"
+
+# exclude_dir is the list of directories to exclude from watching.
+exclude_dir = ["vendor", "tmp"]
+
+# include_ext is the list of file extensions to watch for changes.
+include_ext = ["go", "tpl", "tmpl", "html"]
+
+# bin is the binary output path.
+bin = "tmp/main"
+
+# log_format is the log format for Air.
+log_format = "log"
+
+# build_delay is the delay before rebuilding the project after a file change (in ms).
+build_delay = 200
+
+# kill_delay is the delay before killing the old process (in ms).
+kill_delay = 1000
