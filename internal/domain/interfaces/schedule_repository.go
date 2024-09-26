@@ -12,4 +12,5 @@ type ScheduleRepository interface {
 	Get() ([]models.Schedule, error)
 	DeleteByID(id uint) error
 	GetCountByProjectID(projectID uint) (int, error)
+	GetByProjectID(projectID uint) ([]models.Schedule, error)
 }

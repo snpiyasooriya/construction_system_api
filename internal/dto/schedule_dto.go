@@ -15,3 +15,12 @@ type ScheduleCreateOutputDTO struct {
 	CreatedAt   time.Time
 	UpdatedAt   time.Time
 }
+
+type ScheduleGetByProjectOutputDTO struct {
+	ID          uint      `json:"id"`
+	Name        string    `json:"name"`
+	Description string    `json:"description"`
+	ProjectID   uint      `json:"project_id"`
+	CreatedAt   time.Time `json:"created_at"`
+	UpdatedAt   time.Time `json:"updated_at"`
+}

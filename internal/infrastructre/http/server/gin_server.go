@@ -20,6 +20,7 @@ func NewGinServer(
 	userController *controllers.UserController,
 	authenticationController *controllers.AuthenticationController,
 	projectController *controllers.ProjectController,
+	scheduleController *controllers.ScheduleController,
 ) *GinServer {
 	router := gin.Default()
 
@@ -36,7 +37,7 @@ func NewGinServer(
 		c.Header("Access-Control-Allow-Headers", "Origin, Content-Type, Authorization")
 		c.Status(http.StatusNoContent)
 	})
-	routes.InitRoutes(router, userController, authenticationController, projectController)
+	routes.InitRoutes(router, userController, authenticationController, projectController, scheduleController)
 	return &GinServer{
 		router: router,
 		port:   conf.Server.Port,

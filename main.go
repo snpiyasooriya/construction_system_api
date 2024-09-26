@@ -27,13 +27,16 @@ func main() {
 	projectCreateUseCase := usecases.NewProjectCreateUseCaseImpl(projectRepo)
 	projectsGetUseCase := usecases.NewProjectsGetUseCaseImpl(projectRepo, scheduleRepo)
 	scheduleCreateUseCase := usecases.NewScheduleCreateUseCaseImpl(scheduleRepo)
+	scheduleGetByProjectUseCase := usecases.NewScheduleGetByProjectUseCaseImpl(scheduleRepo)
 	projectService := services.NewProjectCreateService(projectCreateUseCase, scheduleCreateUseCase)
 	projectController := controllers.NewProjectController(projectService, projectsGetUseCase)
+	scheduleController := controllers.NewScheduleController(scheduleGetByProjectUseCase)
+
 	//var projectTypeRepo interfaces2.ProjectTypeRepository
 	//projectTypeRepo = repository.NewProjectTypeGORMRepository(db)
 	//projectTypeCreateUseCase := usecases.NewProjectTypeCreateUseCase(projectTypeRepo)
 	//projectTypeController := controllers.NewProjectTypeController(projectTypeCreateUseCase)
-	server := server2.NewGinServer(conf, userController, authenticationController, projectController)
+	server := server2.NewGinServer(conf, userController, authenticationController, projectController, scheduleController)
 	server.Start()
 
 }

@@ -10,6 +10,7 @@ func InitRoutes(
 	userController *controllers.UserController,
 	authenticationController *controllers.AuthenticationController,
 	projectController *controllers.ProjectController,
+	scheduleController *controllers.ScheduleController,
 ) {
 	apiRoutes := router.Group("/api")
 	{
@@ -34,6 +35,10 @@ func InitRoutes(
 			{
 				projectRoutes.POST("/", projectController.Create)
 				projectRoutes.GET("/", projectController.Get)
+			}
+			scheduleRoutes := protectedRoutes.Group("/schedules")
+			{
+				scheduleRoutes.GET("/ByProject/", scheduleController.GetSchedulesByProjectID)
 			}
 			_ = protectedRoutes.Group("/authentication")
 			{

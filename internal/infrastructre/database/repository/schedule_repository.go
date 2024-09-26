@@ -62,3 +62,13 @@ func (g *GORMScheduleRepository) GetCountByProjectID(projectID uint) (int, error
 	}
 	return int(count), nil
 }
+
+// GetByProjectID retrieves all schedules associated with the specified project ID.
+// It takes a project ID as input and returns a slice of Schedule models along with any error that occurred.
+func (g *GORMScheduleRepository) GetByProjectID(projectID uint) ([]models.Schedule, error) {
+	var schedules []models.Schedule
+	if err := g.db.Where("project_id = ?", projectID).Find(&schedules).Error; err != nil {
+		return nil, err
+	}
+	return schedules, nil
+}

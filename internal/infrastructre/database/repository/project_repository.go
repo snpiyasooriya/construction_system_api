@@ -67,4 +67,5 @@ func (G *GORMProjectRepository) Get() (*dto.ProjectsGetDTO, error) {
 		projectsDTO.Projects = append(projectsDTO.Projects, projectDTO)
 	}
 	return &projectsDTO, nil
+
 }
