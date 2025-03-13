@@ -2,13 +2,13 @@ package main
 
 import (
 	"github.com/snpiyasooriya/construction_design_api/config"
-	"github.com/snpiyasooriya/construction_design_api/internal/infrastructre/database"
-	"github.com/snpiyasooriya/construction_design_api/internal/infrastructre/database/migrations"
-	"github.com/snpiyasooriya/construction_design_api/internal/infrastructre/database/repository"
-	"github.com/snpiyasooriya/construction_design_api/internal/infrastructre/http/controllers"
-	server2 "github.com/snpiyasooriya/construction_design_api/internal/infrastructre/http/server"
-	"github.com/snpiyasooriya/construction_design_api/internal/services"
-	"github.com/snpiyasooriya/construction_design_api/internal/usecases"
+	"github.com/snpiyasooriya/construction_design_api/database"
+	"github.com/snpiyasooriya/construction_design_api/database/migrations"
+	"github.com/snpiyasooriya/construction_design_api/http/controllers"
+	server2 "github.com/snpiyasooriya/construction_design_api/http/server"
+	"github.com/snpiyasooriya/construction_design_api/repository"
+	"github.com/snpiyasooriya/construction_design_api/services"
+	"github.com/snpiyasooriya/construction_design_api/usecase"
 )
 
 func main() {
@@ -17,26 +17,34 @@ func main() {
 	db := database.NewPostgres(conf).GetDb()
 	migrations.AutoMigrate(db)
 	userRepo := repository.NewGormUserRepository(db)
-	userCreateUseCase := usecases.NewUserCreateUseCase(userRepo)
+	userCreateUseCase := usecase.NewUserCreateUseCase(userRepo)
 	userController := controllers.NewUserController(userCreateUseCase)
 
-	loginUseCase := usecases.NewLoginUseCaseImpl(userRepo)
+	loginUseCase := usecase.NewLoginUseCaseImpl(userRepo)
 	authenticationController := controllers.NewAuthenticationController(loginUseCase)
 	projectRepo := repository.NewGORMProjectRepository(db)
 	scheduleRepo := repository.NewGORMScheduleRepository(db)
-	projectCreateUseCase := usecases.NewProjectCreateUseCaseImpl(projectRepo)
-	projectsGetUseCase := usecases.NewProjectsGetUseCaseImpl(projectRepo, scheduleRepo)
-	scheduleCreateUseCase := usecases.NewScheduleCreateUseCaseImpl(scheduleRepo)
-	scheduleGetByProjectUseCase := usecases.NewScheduleGetByProjectUseCaseImpl(scheduleRepo)
+	projectTypeRepo := repository.NewProjectTypeRepository(db)
+
+	projectCreateUseCase := usecase.NewProjectCreateUseCaseImpl(projectRepo)
+	projectsGetUseCase := usecase.NewProjectsGetUseCaseImpl(projectRepo, scheduleRepo)
+	scheduleCreateUseCase := usecase.NewScheduleCreateUseCaseImpl(scheduleRepo)
+	scheduleGetByProjectUseCase := usecase.NewScheduleGetByProjectUseCaseImpl(scheduleRepo)
+	createProjectTypeUseCase := usecase.NewProjectTypeCreateUseCase(projectTypeRepo)
+	getAllProjectTypesUseCase := usecase.NewGetAllProjectTypesUseCase(projectTypeRepo)
+	getProjectTypeUsecase := usecase.NewGetProjectTypeUseCase(projectTypeRepo)
+	deleteProjectTypeUseCase := usecase.NewDeleteProjectTypeUseCase(projectTypeRepo)
+	updateProjectTypeUseCase := usecase.NewProjectTypeUpdateUseCase(projectTypeRepo)
+
 	projectService := services.NewProjectCreateService(projectCreateUseCase, scheduleCreateUseCase)
 	projectController := controllers.NewProjectController(projectService, projectsGetUseCase)
 	scheduleController := controllers.NewScheduleController(scheduleGetByProjectUseCase)
-
+	projectTypeController := controllers.NewProjectTypeController(createProjectTypeUseCase, getAllProjectTypesUseCase, getProjectTypeUsecase, deleteProjectTypeUseCase, updateProjectTypeUseCase)
 	//var projectTypeRepo interfaces2.ProjectTypeRepository
 	//projectTypeRepo = repository.NewProjectTypeGORMRepository(db)
-	//projectTypeCreateUseCase := usecases.NewProjectTypeCreateUseCase(projectTypeRepo)
+	//projectTypeCreateUseCase := usecase.NewProjectTypeCreateUseCase(projectTypeRepo)
 	//projectTypeController := controllers.NewProjectTypeController(projectTypeCreateUseCase)
-	server := server2.NewGinServer(conf, userController, authenticationController, projectController, scheduleController)
+	server := server2.NewGinServer(conf, userController, authenticationController, projectController, scheduleController, projectTypeController)
 	server.Start()
 
 }
