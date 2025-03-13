@@ -7,14 +7,25 @@ import (
 
 type ProjectService struct {
 	projectCreateUseCase  usecases2.ProjectCreateUseCase
+	projectUpdateUseCase  usecases2.ProjectUpdateUseCase
+	projectDeleteUseCase  usecases2.ProjectDeleteUseCase
 	scheduleCreateUseCase usecases2.ScheduleCreateUseCase
-	//scheduleItemCromeCreateUseCase usecase.ScheduleItemCromeCreateUseCase
+	projectAddUserUseCase usecases2.ProjectAddUserUseCase
 }
 
-func NewProjectCreateService(projectCreateUseCase usecases2.ProjectCreateUseCase, sheduleCreateUseCase usecases2.ScheduleCreateUseCase) *ProjectService {
+func NewProjectCreateService(
+	projectCreateUseCase usecases2.ProjectCreateUseCase,
+	projectUpdateUseCase usecases2.ProjectUpdateUseCase,
+	projectDeleteUseCase usecases2.ProjectDeleteUseCase,
+	scheduleCreateUseCase usecases2.ScheduleCreateUseCase,
+	projectAddUserUseCase usecases2.ProjectAddUserUseCase,
+) *ProjectService {
 	return &ProjectService{
 		projectCreateUseCase:  projectCreateUseCase,
-		scheduleCreateUseCase: sheduleCreateUseCase,
+		projectUpdateUseCase:  projectUpdateUseCase,
+		projectDeleteUseCase:  projectDeleteUseCase,
+		scheduleCreateUseCase: scheduleCreateUseCase,
+		projectAddUserUseCase: projectAddUserUseCase,
 	}
 }
 
@@ -31,4 +42,16 @@ func (ps *ProjectService) CreateProject(project dto2.ProjectCreateInputDTO) erro
 		return err
 	}
 	return nil
+}
+
+func (ps *ProjectService) UpdateProject(project dto2.ProjectUpdateDTO) error {
+	return ps.projectUpdateUseCase.Execute(project)
+}
+
+func (ps *ProjectService) DeleteProject(id uint) error {
+	return ps.projectDeleteUseCase.Execute(id)
+}
+
+func (ps *ProjectService) AddUserToProject(input dto2.ProjectAddUserDTO) (*dto2.ProjectAddUserOutputDTO, error) {
+	return ps.projectAddUserUseCase.Execute(input)
 }

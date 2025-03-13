@@ -24,9 +24,13 @@ func InitRoutes(
 		//apiRoutes.Use(middlewares.CabinMiddleware())
 		protectedRoutes := apiRoutes.Group("/")
 		{
-			userRoutes := protectedRoutes.Group("/user")
+			userRoutes := protectedRoutes.Group("/users")
 			{
 				userRoutes.POST("/", userController.CreateUser)
+				userRoutes.GET("/", userController.GetUsers)
+				userRoutes.GET("/:id", userController.GetUserByID)
+				userRoutes.PUT("/:id", userController.UpdateUser)
+				userRoutes.DELETE("/:id", userController.DeleteUser)
 			}
 			projectTypeRoutes := protectedRoutes.Group("/project-type")
 			{
@@ -40,6 +44,10 @@ func InitRoutes(
 			{
 				projectRoutes.POST("/", projectController.Create)
 				projectRoutes.GET("/", projectController.Get)
+				projectRoutes.GET("/:id", projectController.GetByID)
+				projectRoutes.PUT("/:id", projectController.Update)
+				projectRoutes.DELETE("/:id", projectController.Delete)
+				projectRoutes.POST("/:id/users", projectController.AddUser)
 			}
 			scheduleRoutes := protectedRoutes.Group("/schedule")
 			{

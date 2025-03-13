@@ -1,13 +1,14 @@
 package repository
 
 import (
-	"github.com/snpiyasooriya/construction_design_api/entities"
+	"github.com/snpiyasooriya/construction_design_api/models"
 )
 
 type UserRepository interface {
-	CreateUser(user entities.User) (*entities.User, error)
-	GetUserByID(id int) (*entities.User, error)
-	DeleteUserByID(id int) error
-	GetAllUsers() ([]entities.User, error)
-	GetUserByEmail(email string) (*entities.User, error)
+	Create(user models.User) (*models.User, error)
+	GetByID(id uint) (*models.User, error)
+	Update(user models.User) (*models.User, error)
+	Delete(id uint) error
+	Get() ([]models.User, error)
+	GetByEmail(email string) (*models.User, error)
 }

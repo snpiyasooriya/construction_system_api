@@ -18,7 +18,7 @@ func NewLoginUseCaseImpl(userRepo repository.UserRepository) LoginUseCase {
 }
 
 func (l *LoginUseCaseImpl) Execute(loginInput dto.LoginInputDTO) (*dto.LoginOutputDTO, error) {
-	user, err := l.userRepo.GetUserByEmail(loginInput.Email)
+	user, err := l.userRepo.GetByEmail(loginInput.Email)
 	if err != nil {
 		return nil, errors.New("user email not found")
 	}

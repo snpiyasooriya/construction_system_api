@@ -4,8 +4,8 @@ import (
 	"errors"
 	log "github.com/sirupsen/logrus"
 	"github.com/snpiyasooriya/construction_design_api/dto"
-	"github.com/snpiyasooriya/construction_design_api/entities"
 	"github.com/snpiyasooriya/construction_design_api/interfaces/repository"
+	"github.com/snpiyasooriya/construction_design_api/models"
 	"github.com/snpiyasooriya/construction_design_api/pkg/utils"
 )
 
@@ -19,21 +19,20 @@ func NewUserCreateUseCase(userRepo repository.UserRepository) UserCreateUseCase 
 	}
 }
 
-func (uc *userCreateUseCaseImpl) Execute(input dto.UserCreateDTO) (*entities.User, error) {
-	// Validate input (you can also use a validation library for this)
+func (uc *userCreateUseCaseImpl) Execute(input dto.UserCreateDTO) (*dto.UserGetDTO, error) {
+	// Validate input
 	if input.Email == "" || input.Password == "" {
 		return nil, errors.New("email and password are required")
 	}
 
-	// Hash the password (pseudo-code)
+	// Hash the password
 	hashedPassword, err := utils.HashPassword(input.Password)
 	if err != nil {
 		return nil, err
 	}
 
-	// Convert DTO to entity
-	user := entities.User{
-		ID:        0,
+	// Create user model
+	user := models.User{
 		FirstName: input.FirstName,
 		LastName:  input.LastName,
 		Email:     input.Email,
@@ -45,11 +44,24 @@ func (uc *userCreateUseCaseImpl) Execute(input dto.UserCreateDTO) (*entities.Use
 	}
 
 	// Save the user using the repository
-	userEntity, err := uc.userRepository.CreateUser(user)
+	createdUser, err := uc.userRepository.Create(user)
 	if err != nil {
 		log.Error("Failed to create user:", err)
 		return nil, err
 	}
 
-	return userEntity, nil
+	// Convert to DTO
+	return &dto.UserGetDTO{
+		ID:         createdUser.ID,
+		FirstName:  createdUser.FirstName,
+		LastName:   createdUser.LastName,
+		Email:      createdUser.Email,
+		Phone:      createdUser.Phone,
+		DOB:        createdUser.DOB,
+		NIC:        createdUser.NIC,
+		EmployeeID: createdUser.EmployeeID,
+		Role:       createdUser.Role,
+		CreatedAt:  createdUser.CreatedAt,
+		UpdatedAt:  createdUser.UpdatedAt,
+	}, nil
 }

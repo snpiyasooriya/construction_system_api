@@ -18,7 +18,18 @@ func main() {
 	migrations.AutoMigrate(db)
 	userRepo := repository.NewGormUserRepository(db)
 	userCreateUseCase := usecase.NewUserCreateUseCase(userRepo)
-	userController := controllers.NewUserController(userCreateUseCase)
+	userGetUseCase := usecase.NewUserGetUseCase(userRepo)
+	userGetByIDUseCase := usecase.NewUserGetByIDUseCase(userRepo)
+	userUpdateUseCase := usecase.NewUserUpdateUseCase(userRepo)
+	userDeleteUseCase := usecase.NewUserDeleteUseCase(userRepo)
+
+	userController := controllers.NewUserController(
+		userCreateUseCase,
+		userGetUseCase,
+		userGetByIDUseCase,
+		userUpdateUseCase,
+		userDeleteUseCase,
+	)
 
 	loginUseCase := usecase.NewLoginUseCaseImpl(userRepo)
 	authenticationController := controllers.NewAuthenticationController(loginUseCase)
@@ -28,6 +39,9 @@ func main() {
 
 	projectCreateUseCase := usecase.NewProjectCreateUseCaseImpl(projectRepo)
 	projectsGetUseCase := usecase.NewProjectsGetUseCaseImpl(projectRepo, scheduleRepo)
+	projectGetByIDUseCase := usecase.NewProjectGetByIDUseCase(projectRepo)
+	projectUpdateUseCase := usecase.NewProjectUpdateUseCase(projectRepo)
+	projectDeleteUseCase := usecase.NewProjectDeleteUseCase(projectRepo)
 	scheduleCreateUseCase := usecase.NewScheduleCreateUseCaseImpl(scheduleRepo)
 	scheduleGetByProjectUseCase := usecase.NewScheduleGetByProjectUseCaseImpl(scheduleRepo)
 	createProjectTypeUseCase := usecase.NewProjectTypeCreateUseCase(projectTypeRepo)
@@ -36,8 +50,9 @@ func main() {
 	deleteProjectTypeUseCase := usecase.NewDeleteProjectTypeUseCase(projectTypeRepo)
 	updateProjectTypeUseCase := usecase.NewProjectTypeUpdateUseCase(projectTypeRepo)
 
-	projectService := services.NewProjectCreateService(projectCreateUseCase, scheduleCreateUseCase)
-	projectController := controllers.NewProjectController(projectService, projectsGetUseCase)
+	projectAddUserUseCase := usecase.NewProjectAddUserUseCase(projectRepo)
+projectService := services.NewProjectCreateService(projectCreateUseCase, projectUpdateUseCase, projectDeleteUseCase, scheduleCreateUseCase, projectAddUserUseCase)
+	projectController := controllers.NewProjectController(projectService, projectsGetUseCase, projectGetByIDUseCase)
 	scheduleController := controllers.NewScheduleController(scheduleGetByProjectUseCase)
 	projectTypeController := controllers.NewProjectTypeController(createProjectTypeUseCase, getAllProjectTypesUseCase, getProjectTypeUsecase, deleteProjectTypeUseCase, updateProjectTypeUseCase)
 	//var projectTypeRepo interfaces2.ProjectTypeRepository

@@ -1,7 +1,6 @@
 package repository
 
 import (
-	"github.com/snpiyasooriya/construction_design_api/entities"
 	"github.com/snpiyasooriya/construction_design_api/interfaces/repository"
 	"github.com/snpiyasooriya/construction_design_api/models"
 	"gorm.io/gorm"
@@ -16,48 +15,51 @@ func NewGormUserRepository(db *gorm.DB) repository.UserRepository {
 	return &GormUserRepository{db: db}
 }
 
-func (g *GormUserRepository) CreateUser(user entities.User) (*entities.User, error) {
-	gormUser := models.FromUserEntity(user)
-	if err := g.db.Create(&gormUser).Error; err != nil {
+func (g *GormUserRepository) Create(user models.User) (*models.User, error) {
+	if err := g.db.Create(&user).Error; err != nil {
 		return nil, err
 	}
-	userEntity := gormUser.ToEntity()
-	return &userEntity, nil
+	return &user, nil
 }
 
-func (g *GormUserRepository) GetUserByID(id int) (*entities.User, error) {
-	var gormUser models.User
-	if err := g.db.First(&gormUser, id).Error; err != nil {
+func (g *GormUserRepository) GetByID(id uint) (*models.User, error) {
+	var user models.User
+	if err := g.db.First(&user, id).Error; err != nil {
 		return nil, err
 	}
-	userEntity := gormUser.ToEntity()
-	return &userEntity, nil
+	return &user, nil
 }
 
-func (g *GormUserRepository) DeleteUserByID(id int) error {
-	if err := g.db.Delete(&models.User{}, id).Error; err != nil {
-		return err
+func (g *GormUserRepository) Update(user models.User) (*models.User, error) {
+	if err := g.db.Save(&user).Error; err != nil {
+		return nil, err
+	}
+	return &user, nil
+}
+
+func (g *GormUserRepository) Delete(id uint) error {
+	result := g.db.Delete(&models.User{}, id)
+	if result.Error != nil {
+		return result.Error
+	}
+	if result.RowsAffected == 0 {
+		return gorm.ErrRecordNotFound
 	}
 	return nil
 }
 
-func (g *GormUserRepository) GetAllUsers() ([]entities.User, error) {
-	var gormUsers []models.User
-	if err := g.db.Find(&gormUsers).Error; err != nil {
+func (g *GormUserRepository) Get() ([]models.User, error) {
+	var users []models.User
+	if err := g.db.Find(&users).Error; err != nil {
 		return nil, err
-	}
-	users := make([]entities.User, len(gormUsers))
-	for i, gormUser := range gormUsers {
-		users[i] = gormUser.ToEntity()
 	}
 	return users, nil
 }
 
-func (g *GormUserRepository) GetUserByEmail(email string) (*entities.User, error) {
-	var gormUser models.User
-	if err := g.db.Where("email = ?", email).First(&gormUser).Error; err != nil {
+func (g *GormUserRepository) GetByEmail(email string) (*models.User, error) {
+	var user models.User
+	if err := g.db.Where("email = ?", email).First(&user).Error; err != nil {
 		return nil, err
 	}
-	userEntity := gormUser.ToEntity()
-	return &userEntity, nil
+	return &user, nil
 }

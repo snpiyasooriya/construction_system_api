@@ -15,6 +15,7 @@ type User struct {
 	Phone        string `gorm:"unique"`
 	DOB          time.Time
 	NIC          string `gorm:"unique"`
+	EmployeeID   string `gorm:"unique"`
 	Password     string
 	Role         string
 	Projects     []Project `gorm:"many2many:project_users;"`
@@ -23,18 +24,19 @@ type User struct {
 
 func (u *User) ToEntity() entities.User {
 	return entities.User{
-		ID:        u.ID,
-		FirstName: u.FirstName,
-		LastName:  u.LastName,
-		Email:     u.Email,
-		Phone:     u.Phone,
-		DOB:       u.DOB,
-		NIC:       u.NIC,
-		Password:  u.Password,
-		Role:      u.Role,
-		CreatedAt: u.CreatedAt,
-		UpdatedAt: u.UpdatedAt,
-		DeletedAt: u.DeletedAt.Time,
+		ID:         u.ID,
+		FirstName:  u.FirstName,
+		LastName:   u.LastName,
+		Email:      u.Email,
+		Phone:      u.Phone,
+		DOB:        u.DOB,
+		NIC:        u.NIC,
+		EmployeeID: u.EmployeeID,
+		Password:   u.Password,
+		Role:       u.Role,
+		CreatedAt:  u.CreatedAt,
+		UpdatedAt:  u.UpdatedAt,
+		DeletedAt:  u.DeletedAt.Time,
 	}
 }
 
@@ -46,13 +48,14 @@ func FromUserEntity(e entities.User) User {
 			UpdatedAt: e.UpdatedAt,
 			DeletedAt: utils.ConvertTimeToDeletedAt(e.DeletedAt),
 		},
-		FirstName: e.FirstName,
-		LastName:  e.LastName,
-		Email:     e.Email,
-		Phone:     e.Phone,
-		DOB:       e.DOB,
-		NIC:       e.NIC,
-		Password:  e.Password,
-		Role:      e.Role,
+		FirstName:  e.FirstName,
+		LastName:   e.LastName,
+		Email:      e.Email,
+		Phone:      e.Phone,
+		DOB:        e.DOB,
+		NIC:        e.NIC,
+		EmployeeID: e.EmployeeID,
+		Password:   e.Password,
+		Role:       e.Role,
 	}
 }

@@ -6,14 +6,15 @@ import (
 )
 
 type UserCreateDTO struct {
-	FirstName string     `json:"first_name" validate:"required,min=4,max=15"`
-	LastName  string     `json:"last_name"  validate:"required,min=4,max=15"`
-	Email     string     `json:"email"  validate:"required,email"`
-	Phone     string     `json:"phone"  validate:"required"`
-	DOB       CustomDate `json:"dob" validate:"required"`
-	NIC       string     `json:"nic"  validate:"required"`
-	Password  string     `json:"password"  validate:"required"`
-	Role      string     `json:"role"  validate:"required"`
+	FirstName  string     `json:"first_name" binding:"required,min=4,max=15"`
+	LastName   string     `json:"last_name"  binding:"required,min=4,max=15"`
+	Email      string     `json:"email"  binding:"required,email"`
+	Phone      string     `json:"phone"  binding:"required"`
+	DOB        CustomDate `json:"dob" binding:"required"`
+	NIC        string     `json:"nic"  binding:"required"`
+	EmployeeID string     `json:"employee_id"  binding:"required"`
+	Password   string     `json:"password"  binding:"required"`
+	Role       string     `json:"role"  binding:"required"`
 }
 
 type CustomDate time.Time

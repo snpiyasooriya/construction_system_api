@@ -4,7 +4,7 @@ import "time"
 
 type ProjectTypeCreateDTO struct {
 	ID        uint   `json:"id"`
-	Type      string `json:"type" bindings:"required"`
+	Type      string `json:"type" binding:"required"`
 	CreatedAt time.Time
 }
 
