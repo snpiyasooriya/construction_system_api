@@ -96,7 +96,7 @@ func AutoMigrate(db *gorm.DB) {
 	//
 	//fmt.Println("Initial database migration completed successfully")
 
-	err := db.AutoMigrate(&models.User{}, &models.Project{}, &models.ProjectType{})
+	err := db.AutoMigrate(&models.User{}, &models.Project{}, &models.ProjectType{}, &models.Schedule{}, &models.ScheduleItemCrome{})
 	if err != nil {
 		panic("failed to migrate database")
 	}
