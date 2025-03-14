@@ -1,41 +1,55 @@
-# Use the official Golang image (use a correct version like 1.20)
-FROM golang:1.24 AS builder
+# Build stage
+FROM golang:1.24-alpine AS builder
 
-# Install Air
-RUN go install github.com/air-verse/air@latest
+# Install build dependencies
+RUN apk add --no-cache gcc musl-dev
 
-# Set the Current Working Directory inside the container
+# Set working directory
 WORKDIR /app
 
-# Copy go.mod and go.sum files
+# Copy go mod files
 COPY go.mod go.sum ./
 
-ENV GOPROXY=direct
-
-# Download all dependencies. Dependencies will be cached if the go.mod and go.sum files are not changed
+# Download dependencies
 RUN go mod download
 
-# Copy the source from the current directory to the Working Directory inside the container
+# Copy source code
 COPY . .
 
-# Build the Go app
-RUN go build -o main ./main.go
+# Build the application with optimizations
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -ldflags='-w -s' -o main .
 
-# Start a new stage from scratch using the official Golang image
-FROM golang:1.24
+# Final stage
+FROM alpine:3.19
 
-# Install Air
-RUN go install github.com/air-verse/air@latest
+# Install runtime dependencies
+RUN apk add --no-cache ca-certificates tzdata
 
-# Set the working directory
+# Create non-root user
+RUN adduser -D -g '' appuser
+
+# Set working directory
 WORKDIR /app
 
-# Copy the Air binary from the builder stage
-COPY --from=builder /go/bin/air /usr/local/bin/
+# Copy binary from builder
+COPY --from=builder /app/main .
 
-# Copy the built binary and source code from the builder stage
-COPY --from=builder /app/main /app/
-COPY . .
+# Copy config files
+COPY --from=builder /app/config/model.conf ./config/
+COPY --from=builder /app/config/policy.csv ./config/
+COPY config.yml ./
 
-# Command to run Air for live reloading
-CMD ["air", "-c", "/app/.air.toml"]
+# Set ownership
+RUN chown -R appuser:appuser /app
+
+# Use non-root user
+USER appuser
+
+# Expose port
+EXPOSE 8080
+
+# Set environment variables
+ENV GIN_MODE=release
+
+# Run the binary with a startup delay to ensure database is ready
+CMD ["sh", "-c", "sleep 5 && ./main"]

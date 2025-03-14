@@ -16,6 +16,7 @@ func InitRoutes(
 	apiRoutes := router.Group("/api")
 	{
 		apiRoutes.GET("/ping", controllers2.Ping)
+		apiRoutes.GET("/health", controllers2.Health)
 		apiRoutes.POST("/login", authenticationController.Login)
 
 		// Apply JWT authentication middleware globally

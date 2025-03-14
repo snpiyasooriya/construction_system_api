@@ -7,3 +7,10 @@ func Ping(c *gin.Context) {
 		"message": "pong",
 	})
 }
+
+func Health(c *gin.Context) {
+	c.JSON(200, gin.H{
+		"status":  "healthy",
+		"service": "construction-system-api",
+	})
+}
