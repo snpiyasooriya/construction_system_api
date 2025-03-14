@@ -88,11 +88,6 @@ func AutoMigrate(db *gorm.DB) {
 	//);`)
 	//
 	//// Add foreign key constraints after all tables are created
-	db.Exec(`DROP TABLE IF EXISTS project_users;`)
-	db.Exec(`DROP TABLE IF EXISTS schedule_item_cromes;`)
-	db.Exec(`DROP TABLE IF EXISTS schedules;`)
-	db.Exec(`DROP TABLE IF EXISTS projects;`)
-	db.Exec(`DROP TABLE IF EXISTS users;`)
 	//db.Exec(`ALTER TABLE projects ADD CONSTRAINT fk_projects_leader FOREIGN KEY (leader_id) REFERENCES users(id);`)
 	//db.Exec(`ALTER TABLE project_users ADD CONSTRAINT fk_project_users_user FOREIGN KEY (user_id) REFERENCES users(id);`)
 	//db.Exec(`ALTER TABLE project_users ADD CONSTRAINT fk_project_users_project FOREIGN KEY (project_id) REFERENCES projects(id);`)
