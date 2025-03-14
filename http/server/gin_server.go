@@ -23,10 +23,11 @@ func NewGinServer(
 	scheduleController *controllers2.ScheduleController,
 	projectTypeController *controllers2.ProjectTypeController,
 ) *GinServer {
+	fmt.Println(conf.Server.AllowOrigin)
 	router := gin.Default()
 
 	router.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{"http://localhost:3000"},
+		AllowOrigins:     []string{conf.Server.AllowOrigin},
 		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE"},
 		AllowHeaders:     []string{"Origin", "Content-Type", "Authorization"},
 		ExposeHeaders:    []string{"Content-Length", "Set-Cookie"},

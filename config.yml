@@ -1,9 +1,10 @@
 db:
-  host: db
+  host: localhost
   port: 5432
   user: postgres
-  password: postgres
+  password: r00tsql
   db: construction_system
 
 server:
   port: 8080
+  allowOrigin: http://localhost:3000
