@@ -55,11 +55,21 @@ projectService := services.NewProjectCreateService(projectCreateUseCase, project
 	projectController := controllers.NewProjectController(projectService, projectsGetUseCase, projectGetByIDUseCase)
 	scheduleController := controllers.NewScheduleController(scheduleGetByProjectUseCase)
 	projectTypeController := controllers.NewProjectTypeController(createProjectTypeUseCase, getAllProjectTypesUseCase, getProjectTypeUsecase, deleteProjectTypeUseCase, updateProjectTypeUseCase)
+
+	// Shape components
+	shapeRepo := repository.NewGORMShapeRepository(db)
+	shapeCreateUseCase := usecase.NewShapeCreateUseCase(shapeRepo)
+	shapeGetUseCase := usecase.NewShapeGetUseCase(shapeRepo)
+	shapeGetByIDUseCase := usecase.NewShapeGetByIDUseCase(shapeRepo)
+	shapeDeleteUseCase := usecase.NewShapeDeleteUseCase(shapeRepo)
+	shapeService := services.NewShapeService(shapeCreateUseCase, shapeGetUseCase, shapeGetByIDUseCase, shapeDeleteUseCase)
+	shapeController := controllers.NewShapeController(shapeService)
+
 	//var projectTypeRepo interfaces2.ProjectTypeRepository
 	//projectTypeRepo = repository.NewProjectTypeGORMRepository(db)
 	//projectTypeCreateUseCase := usecase.NewProjectTypeCreateUseCase(projectTypeRepo)
 	//projectTypeController := controllers.NewProjectTypeController(projectTypeCreateUseCase)
-	server := server2.NewGinServer(conf, userController, authenticationController, projectController, scheduleController, projectTypeController)
+	server := server2.NewGinServer(conf, userController, authenticationController, projectController, scheduleController, projectTypeController, shapeController)
 	server.Start()
 
 }

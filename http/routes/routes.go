@@ -12,6 +12,7 @@ func InitRoutes(
 	projectController *controllers2.ProjectController,
 	scheduleController *controllers2.ScheduleController,
 	projectTypeController *controllers2.ProjectTypeController,
+	shapeController *controllers2.ShapeController,
 ) {
 	apiRoutes := router.Group("/api")
 	{
@@ -53,6 +54,13 @@ func InitRoutes(
 			scheduleRoutes := protectedRoutes.Group("/schedule")
 			{
 				scheduleRoutes.GET("/ByProject/", scheduleController.GetSchedulesByProjectID)
+			}
+			shapeRoutes := protectedRoutes.Group("/shapes")
+			{
+				shapeRoutes.POST("/", shapeController.Create)
+				shapeRoutes.GET("/", shapeController.Get)
+				shapeRoutes.GET("/:id", shapeController.GetByID)
+				shapeRoutes.DELETE("/:id", shapeController.Delete)
 			}
 			_ = protectedRoutes.Group("/authentication")
 			{
