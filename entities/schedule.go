@@ -11,5 +11,6 @@ type Schedule struct {
 	Description       string `json:"description"`
 	CreatedBy         User
 	ScheduleItemCrome []ScheduleItemCrome
+	ProjectID         uint
 	Project           Project
 }

@@ -18,7 +18,9 @@ func NewGORMScheduleRepository(db *gorm.DB) *GORMScheduleRepository {
 
 func (g *GORMScheduleRepository) Create(schedule dto.ScheduleCreateInputDTO) (*dto.ScheduleCreateOutputDTO, error) {
 	createdSchedule := models.Schedule{
-		ProjectID: schedule.ProjectID,
+		Name:        schedule.Name,
+		Description: schedule.Description,
+		ProjectID:   schedule.ProjectID,
 	}
 	if err := g.db.Create(&createdSchedule).Error; err != nil {
 		return nil, err

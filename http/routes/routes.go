@@ -3,6 +3,8 @@ package routes
 import (
 	"github.com/gin-gonic/gin"
 	controllers2 "github.com/snpiyasooriya/construction_design_api/http/controllers"
+	files "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 func InitRoutes(
@@ -14,6 +16,9 @@ func InitRoutes(
 	projectTypeController *controllers2.ProjectTypeController,
 	shapeController *controllers2.ShapeController,
 ) {
+	// Swagger documentation route
+	router.GET("/swagger/*any", ginSwagger.WrapHandler(files.Handler))
+
 	apiRoutes := router.Group("/api")
 	{
 		apiRoutes.GET("/ping", controllers2.Ping)
@@ -53,6 +58,7 @@ func InitRoutes(
 			}
 			scheduleRoutes := protectedRoutes.Group("/schedule")
 			{
+				scheduleRoutes.POST("/", scheduleController.CreateSchedule)
 				scheduleRoutes.GET("/ByProject/", scheduleController.GetSchedulesByProjectID)
 			}
 			shapeRoutes := protectedRoutes.Group("/shapes")

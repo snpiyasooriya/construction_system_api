@@ -21,6 +21,17 @@ func NewAuthenticationController(loginUseCase usecase.LoginUseCase) *Authenticat
 	}
 }
 
+// Login godoc
+// @Summary User login
+// @Description Authenticate user with email and password
+// @Tags Authentication
+// @Accept json
+// @Produce json
+// @Param login body dto.LoginInputDTO true "Login credentials"
+// @Success 200 {object} map[string]string "Login successful"
+// @Failure 400 {object} map[string]interface{} "Bad request"
+// @Failure 500 {object} map[string]string "Internal server error"
+// @Router /api/login [post]
 func (ac *AuthenticationController) Login(c *gin.Context) {
 	var userLoginDTO dto.LoginInputDTO
 	if err := c.ShouldBind(&userLoginDTO); err != nil {

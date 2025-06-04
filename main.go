@@ -1,9 +1,37 @@
+// Package main Construction System API
+//
+// This is a construction management system API that provides endpoints for managing
+// users, projects, schedules, project types, and shapes in a construction environment.
+//
+// Terms Of Service: http://swagger.io/terms/
+//
+// Schemes: http, https
+// Host: localhost:8080
+// BasePath: /api
+// Version: 1.0.0
+// Contact: Construction System Team <support@construction-system.com>
+//
+// Consumes:
+// - application/json
+//
+// Produces:
+// - application/json
+//
+// SecurityDefinitions:
+// Bearer:
+//   type: apiKey
+//   name: Authorization
+//   in: header
+//   description: Enter the token with the `Bearer ` prefix, e.g. "Bearer abcde12345"
+//
+// swagger:meta
 package main
 
 import (
 	"github.com/snpiyasooriya/construction_design_api/config"
 	"github.com/snpiyasooriya/construction_design_api/database"
 	"github.com/snpiyasooriya/construction_design_api/database/migrations"
+	_ "github.com/snpiyasooriya/construction_design_api/docs"
 	"github.com/snpiyasooriya/construction_design_api/http/controllers"
 	server2 "github.com/snpiyasooriya/construction_design_api/http/server"
 	"github.com/snpiyasooriya/construction_design_api/repository"
@@ -53,7 +81,7 @@ func main() {
 	projectAddUserUseCase := usecase.NewProjectAddUserUseCase(projectRepo)
 projectService := services.NewProjectCreateService(projectCreateUseCase, projectUpdateUseCase, projectDeleteUseCase, scheduleCreateUseCase, projectAddUserUseCase)
 	projectController := controllers.NewProjectController(projectService, projectsGetUseCase, projectGetByIDUseCase)
-	scheduleController := controllers.NewScheduleController(scheduleGetByProjectUseCase)
+	scheduleController := controllers.NewScheduleController(scheduleGetByProjectUseCase, scheduleCreateUseCase)
 	projectTypeController := controllers.NewProjectTypeController(createProjectTypeUseCase, getAllProjectTypesUseCase, getProjectTypeUsecase, deleteProjectTypeUseCase, updateProjectTypeUseCase)
 
 	// Shape components
