@@ -1,4 +1,20 @@
 definitions:
+  constants.ScheduleStatus:
+    enum:
+    - DRAFT
+    - PENDING
+    - REVIEWED
+    - APPROVED
+    - REJECTED
+    - CANCELLED
+    type: string
+    x-enum-varnames:
+    - ScheduleStatusDraft
+    - ScheduleStatusPending
+    - ScheduleStatusReviewed
+    - ScheduleStatusApproved
+    - ScheduleStatusRejected
+    - ScheduleStatusCancelled
   dto.LoginInputDTO:
     properties:
       email:
@@ -166,31 +182,30 @@ definitions:
     type: object
   dto.ScheduleCreateInputDTO:
     properties:
-      description:
-        type: string
-      name:
-        type: string
-      project_id:
-        type: integer
-    required:
-    - description
-    - name
-    - project_id
-    type: object
-  dto.ScheduleCreateOutputDTO:
-    properties:
       created_at:
         type: string
       description:
         type: string
       id:
         type: integer
-      name:
+      note:
         type: string
       project_id:
         type: integer
+      required_date:
+        type: string
+      schedular_id:
+        type: integer
+      schedule_id:
+        type: string
+      status:
+        $ref: '#/definitions/constants.ScheduleStatus'
       updated_at:
         type: string
+    required:
+    - description
+    - required_date
+    - schedular_id
     type: object
   dto.ScheduleGetByProjectOutputDTO:
     properties:
@@ -200,10 +215,18 @@ definitions:
         type: string
       id:
         type: integer
-      name:
+      note:
         type: string
       project_id:
         type: integer
+      required_date:
+        type: string
+      schedular_id:
+        type: integer
+      schedule_id:
+        type: string
+      status:
+        $ref: '#/definitions/constants.ScheduleStatus'
       updated_at:
         type: string
     type: object
@@ -793,7 +816,7 @@ paths:
         "201":
           description: Schedule created successfully
           schema:
-            $ref: '#/definitions/dto.ScheduleCreateOutputDTO'
+            $ref: '#/definitions/dto.ScheduleCreateInputDTO'
         "400":
           description: Bad request
           schema:

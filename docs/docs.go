@@ -733,7 +733,7 @@ const docTemplate = `{
                     "201": {
                         "description": "Schedule created successfully",
                         "schema": {
-                            "$ref": "#/definitions/dto.ScheduleCreateOutputDTO"
+                            "$ref": "#/definitions/dto.ScheduleCreateInputDTO"
                         }
                     },
                     "400": {
@@ -1210,6 +1210,25 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "constants.ScheduleStatus": {
+            "type": "string",
+            "enum": [
+                "DRAFT",
+                "PENDING",
+                "REVIEWED",
+                "APPROVED",
+                "REJECTED",
+                "CANCELLED"
+            ],
+            "x-enum-varnames": [
+                "ScheduleStatusDraft",
+                "ScheduleStatusPending",
+                "ScheduleStatusReviewed",
+                "ScheduleStatusApproved",
+                "ScheduleStatusRejected",
+                "ScheduleStatusCancelled"
+            ]
+        },
         "dto.LoginInputDTO": {
             "type": "object",
             "required": [
@@ -1454,23 +1473,9 @@ const docTemplate = `{
             "type": "object",
             "required": [
                 "description",
-                "name",
-                "project_id"
+                "required_date",
+                "schedular_id"
             ],
-            "properties": {
-                "description": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "project_id": {
-                    "type": "integer"
-                }
-            }
-        },
-        "dto.ScheduleCreateOutputDTO": {
-            "type": "object",
             "properties": {
                 "created_at": {
                     "type": "string"
@@ -1481,11 +1486,23 @@ const docTemplate = `{
                 "id": {
                     "type": "integer"
                 },
-                "name": {
+                "note": {
                     "type": "string"
                 },
                 "project_id": {
                     "type": "integer"
+                },
+                "required_date": {
+                    "type": "string"
+                },
+                "schedular_id": {
+                    "type": "integer"
+                },
+                "schedule_id": {
+                    "type": "string"
+                },
+                "status": {
+                    "$ref": "#/definitions/constants.ScheduleStatus"
                 },
                 "updated_at": {
                     "type": "string"
@@ -1504,11 +1521,23 @@ const docTemplate = `{
                 "id": {
                     "type": "integer"
                 },
-                "name": {
+                "note": {
                     "type": "string"
                 },
                 "project_id": {
                     "type": "integer"
+                },
+                "required_date": {
+                    "type": "string"
+                },
+                "schedular_id": {
+                    "type": "integer"
+                },
+                "schedule_id": {
+                    "type": "string"
+                },
+                "status": {
+                    "$ref": "#/definitions/constants.ScheduleStatus"
                 },
                 "updated_at": {
                     "type": "string"
