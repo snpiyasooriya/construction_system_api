@@ -13,7 +13,7 @@ services:
       - DB_USER=postgres
       - DB_PASSWORD=postgres
       - DB_NAME=construction_system
-      - DB_SSL_MODE=disable
+      - DB_SSL_MODE=require
       - GIN_MODE=release
     depends_on:
       db:

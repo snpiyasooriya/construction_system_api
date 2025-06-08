@@ -7,4 +7,4 @@ db:
 
 server:
   port: 8080
-  allowOrigin: http://localhost:3000
+  allowOrigin: https://con-dev.ratko.co
