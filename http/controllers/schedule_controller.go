@@ -53,7 +53,7 @@ func (sc *ScheduleController) GetSchedulesByProjectID(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Param schedule body dto.ScheduleCreateInputDTO true "Schedule creation data"
-// @Success 201 {object} dto.ScheduleCreateOutputDTO "Schedule created successfully"
+// @Success 201 {object} dto.ScheduleCreateInputDTO "Schedule created successfully"
 // @Failure 400 {object} map[string]interface{} "Bad request"
 // @Failure 500 {object} map[string]string "Internal server error"
 // @Security Bearer
@@ -74,11 +74,11 @@ func (sc *ScheduleController) CreateSchedule(c *gin.Context) {
 	}
 
 	// Execute use case
-	createdSchedule, err := sc.scheduleCreateUseCase.Execute(scheduleCreateInputDTO)
+	err := sc.scheduleCreateUseCase.Execute(&scheduleCreateInputDTO)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create schedule: " + err.Error()})
 		return
 	}
 
-	c.JSON(http.StatusCreated, createdSchedule)
+	c.JSON(http.StatusCreated, scheduleCreateInputDTO)
 }

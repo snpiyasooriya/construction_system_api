@@ -30,14 +30,7 @@ func NewProjectCreateService(
 }
 
 func (ps *ProjectService) CreateProject(project dto2.ProjectCreateInputDTO) error {
-	createdProject, err := ps.projectCreateUseCase.Execute(project)
-	if err != nil {
-		return err
-	}
-	scheduleCreateDTO := dto2.ScheduleCreateInputDTO{
-		ProjectID: createdProject.ID,
-	}
-	_, err = ps.scheduleCreateUseCase.Execute(scheduleCreateDTO)
+	_, err := ps.projectCreateUseCase.Execute(project)
 	if err != nil {
 		return err
 	}

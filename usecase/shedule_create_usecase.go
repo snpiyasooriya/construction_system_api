@@ -5,5 +5,5 @@ import (
 )
 
 type ScheduleCreateUseCase interface {
-	Execute(scheduleCreateInputDTO dto.ScheduleCreateInputDTO) (*dto.ScheduleCreateOutputDTO, error)
+	Execute(scheduleCreateInputDTO *dto.ScheduleCreateInputDTO) error
 }

@@ -6,7 +6,7 @@ import (
 )
 
 type ScheduleRepository interface {
-	Create(schedule dto.ScheduleCreateInputDTO) (*dto.ScheduleCreateOutputDTO, error)
+	Create(schedule *dto.ScheduleCreateInputDTO) error
 	UpdateByID(schedule models.Schedule) (*models.Schedule, error)
 	GetByID(id uint) (*models.Schedule, error)
 	Get() ([]models.Schedule, error)

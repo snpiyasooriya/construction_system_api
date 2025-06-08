@@ -9,17 +9,19 @@ import (
 
 type User struct {
 	gorm.Model
-	FirstName    string
-	LastName     string
-	Email        string `gorm:"unique"`
-	Phone        string `gorm:"unique"`
-	DOB          time.Time
-	NIC          string `gorm:"unique"`
-	EmployeeID   string `gorm:"unique"`
-	Password     string
-	Role         string
-	Projects     []Project `gorm:"many2many:project_users;"`
-	LeadProjects []Project `gorm:"foreignKey:LeaderID"`
+	FirstName          string
+	LastName           string
+	Email              string `gorm:"unique"`
+	Phone              string `gorm:"unique"`
+	DOB                time.Time
+	NIC                string `gorm:"unique"`
+	EmployeeID         string `gorm:"unique"`
+	Password           string
+	Role               string
+	Projects           []Project  `gorm:"many2many:project_users;"`
+	LeadProjects       []Project  `gorm:"foreignKey:LeaderID"`
+	ScheduledSchedules []Schedule `gorm:"foreignKey:SchedularID"`
+	ReviewedSchedules  []Schedule `gorm:"foreignKey:ReviewerID"`
 }
 
 func (u *User) ToEntity() entities.User {

@@ -16,25 +16,23 @@ func NewGORMScheduleRepository(db *gorm.DB) *GORMScheduleRepository {
 	}
 }
 
-func (g *GORMScheduleRepository) Create(schedule dto.ScheduleCreateInputDTO) (*dto.ScheduleCreateOutputDTO, error) {
+func (g *GORMScheduleRepository) Create(schedule *dto.ScheduleCreateInputDTO) error {
 	createdSchedule := models.Schedule{
-		Name:        schedule.Name,
-		Description: schedule.Description,
-		ProjectID:   schedule.ProjectID,
+		Description:  schedule.Description,
+		ProjectID:    schedule.ProjectID,
+		SchedularID:  schedule.SchedularID,
+		ScheduleID:   schedule.ScheduleID,
+		RequiredDate: schedule.RequiredDate,
+		Note:         schedule.Note,
+		Status:       schedule.Status,
 	}
 	if err := g.db.Create(&createdSchedule).Error; err != nil {
-		return nil, err
+		return err
 	}
-	scheduleCreateOutputDTO := dto.ScheduleCreateOutputDTO{
-		ID:          createdSchedule.ID,
-		Name:        createdSchedule.Name,
-		Description: createdSchedule.Description,
-		ProjectID:   createdSchedule.ProjectID,
-		CreatedAt:   createdSchedule.CreatedAt,
-		UpdatedAt:   createdSchedule.UpdatedAt,
-	}
-
-	return &scheduleCreateOutputDTO, nil
+	schedule.ID = createdSchedule.ID
+	schedule.CreatedAt = createdSchedule.CreatedAt
+	schedule.UpdatedAt = createdSchedule.UpdatedAt
+	return nil
 }
 
 func (g *GORMScheduleRepository) UpdateByID(schedule models.Schedule) (*models.Schedule, error) {
@@ -69,7 +67,7 @@ func (g *GORMScheduleRepository) GetCountByProjectID(projectID uint) (int, error
 // It takes a project ID as input and returns a slice of Schedule models along with any error that occurred.
 func (g *GORMScheduleRepository) GetByProjectID(projectID uint) ([]models.Schedule, error) {
 	var schedules []models.Schedule
-	if err := g.db.Where("project_id = ?", projectID).Find(&schedules).Error; err != nil {
+	if err := g.db.Where("project_id = ?", projectID).Preload("Schedular").Preload("Reviewer").Preload("Project").Find(&schedules).Error; err != nil {
 		return nil, err
 	}
 	return schedules, nil

@@ -1,16 +1,25 @@
 package entities
 
-import "time"
+import (
+	"github.com/snpiyasooriya/construction_design_api/constants"
+	"time"
+)
 
 type Schedule struct {
-	ID                uint `json:"id"`
-	CreatedAt         time.Time
-	UpdatedAt         time.Time
-	DeletedAt         *time.Time
-	Name              string `json:"name"`
-	Description       string `json:"description"`
-	CreatedBy         User
-	ScheduleItemCrome []ScheduleItemCrome
-	ProjectID         uint
-	Project           Project
+	ID           uint
+	ProjectID    uint
+	Project      Project
+	ScheduleID   string
+	Description  string
+	RequiredDate time.Time
+	SchedularID  uint
+	Schedular    User
+	ReviewerID   uint
+	Reviewer     User
+	ReviewedDate time.Time
+	Status       constants.ScheduleStatus
+	Note         string
+	CreatedAt    time.Time
+	UpdatedAt    time.Time
+	DeletedAt    time.Time
 }

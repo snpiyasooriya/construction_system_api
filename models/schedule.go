@@ -1,23 +1,23 @@
 package models
 
 import (
-	"github.com/snpiyasooriya/construction_design_api/entities"
+	"github.com/snpiyasooriya/construction_design_api/constants"
 	"gorm.io/gorm"
+	"time"
 )
 
 type Schedule struct {
 	gorm.Model
-	Name        string  `json:"name"`
-	Description string  `json:"description"`
-	ProjectID   uint    `json:"project_id"`
-	Project     Project `json:"project"`
-}
-
-func (s *Schedule) ToEntity() entities.Schedule {
-	return entities.Schedule{
-		ID:          s.ID,
-		Name:        s.Name,
-		Description: s.Description,
-		Project:     s.Project.ToEntity(),
-	}
+	ProjectID    uint                     `json:"project_id"`
+	Project      Project                  `json:"project"`
+	ScheduleID   string                   `json:"schedule_id" gorm:"unique;not null;size:8"`
+	Description  string                   `json:"description"`
+	RequiredDate time.Time                `json:"required_date"`
+	SchedularID  uint                     `json:"schedular_id"`
+	Schedular    User                     `json:"schedular"`
+	ReviewerID   *uint                    `json:"reviewer_id" gorm:"default:null"`
+	Reviewer     User                     `json:"reviewer" gorm:"foreignKey:ReviewerID"`
+	ReviewedDate *time.Time               `json:"reviewed_date"`
+	Status       constants.ScheduleStatus `json:"status"`
+	Note         string                   `json:"note"`
 }

@@ -19,10 +19,11 @@
 //
 // SecurityDefinitions:
 // Bearer:
-//   type: apiKey
-//   name: Authorization
-//   in: header
-//   description: Enter the token with the `Bearer ` prefix, e.g. "Bearer abcde12345"
+//
+//	type: apiKey
+//	name: Authorization
+//	in: header
+//	description: Enter the token with the `Bearer ` prefix, e.g. "Bearer abcde12345"
 //
 // swagger:meta
 package main
@@ -70,7 +71,7 @@ func main() {
 	projectGetByIDUseCase := usecase.NewProjectGetByIDUseCase(projectRepo)
 	projectUpdateUseCase := usecase.NewProjectUpdateUseCase(projectRepo)
 	projectDeleteUseCase := usecase.NewProjectDeleteUseCase(projectRepo)
-	scheduleCreateUseCase := usecase.NewScheduleCreateUseCaseImpl(scheduleRepo)
+	scheduleCreateUseCase := usecase.NewScheduleCreateUseCaseImpl(scheduleRepo, projectRepo)
 	scheduleGetByProjectUseCase := usecase.NewScheduleGetByProjectUseCaseImpl(scheduleRepo)
 	createProjectTypeUseCase := usecase.NewProjectTypeCreateUseCase(projectTypeRepo)
 	getAllProjectTypesUseCase := usecase.NewGetAllProjectTypesUseCase(projectTypeRepo)
@@ -79,7 +80,7 @@ func main() {
 	updateProjectTypeUseCase := usecase.NewProjectTypeUpdateUseCase(projectTypeRepo)
 
 	projectAddUserUseCase := usecase.NewProjectAddUserUseCase(projectRepo)
-projectService := services.NewProjectCreateService(projectCreateUseCase, projectUpdateUseCase, projectDeleteUseCase, scheduleCreateUseCase, projectAddUserUseCase)
+	projectService := services.NewProjectCreateService(projectCreateUseCase, projectUpdateUseCase, projectDeleteUseCase, scheduleCreateUseCase, projectAddUserUseCase)
 	projectController := controllers.NewProjectController(projectService, projectsGetUseCase, projectGetByIDUseCase)
 	scheduleController := controllers.NewScheduleController(scheduleGetByProjectUseCase, scheduleCreateUseCase)
 	projectTypeController := controllers.NewProjectTypeController(createProjectTypeUseCase, getAllProjectTypesUseCase, getProjectTypeUsecase, deleteProjectTypeUseCase, updateProjectTypeUseCase)
