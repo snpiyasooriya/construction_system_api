@@ -35,7 +35,8 @@ type Config struct {
 }
 
 type server struct {
-	Port int
+	Port        int
+	AllowOrigin string
 }
 
 type db struct {

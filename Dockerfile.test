@@ -1,0 +1,26 @@
+# Test stage
+FROM golang:1.24-alpine AS test
+
+# Install build dependencies and testing tools
+RUN apk add --no-cache gcc musl-dev git
+
+# Set working directory
+WORKDIR /app
+
+# Copy go mod files
+COPY go.mod go.sum ./
+
+# Download dependencies
+RUN go mod download
+
+# Add testing dependencies
+RUN go get github.com/stretchr/testify/suite \
+    github.com/stretchr/testify/mock \
+    github.com/stretchr/testify/assert \
+    gorm.io/driver/sqlite
+
+# Copy source code
+COPY . .
+
+# Run tests with coverage
+CMD ["sh", "-c", "go test -v -race -coverprofile=coverage.out -covermode=atomic ./... && go tool cover -html=coverage.out -o coverage.html"]

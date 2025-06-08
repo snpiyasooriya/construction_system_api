@@ -1,0 +1,16 @@
+root = "."
+[build]
+bin = "main"
+cmd = "go build -o main --buildvcs=false ./"
+post_cmd  = ["./main"]
+# Watch these filename extensions.
+include_ext = ["go", "tpl", "tmpl", "html"]
+# Watch these directories if you specified.
+include_dir = []
+# Exclude files.
+exclude_file = ["tmp", "vendor", ".git"]
+
+follow_symlink  = true
+
+
+use_shell = true

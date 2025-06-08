@@ -1,0 +1,1142 @@
+definitions:
+  constants.ScheduleStatus:
+    enum:
+    - DRAFT
+    - PENDING
+    - REVIEWED
+    - APPROVED
+    - REJECTED
+    - CANCELLED
+    type: string
+    x-enum-varnames:
+    - ScheduleStatusDraft
+    - ScheduleStatusPending
+    - ScheduleStatusReviewed
+    - ScheduleStatusApproved
+    - ScheduleStatusRejected
+    - ScheduleStatusCancelled
+  dto.LoginInputDTO:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    required:
+    - email
+    - password
+    type: object
+  dto.ProjectAddUserDTO:
+    properties:
+      project_id:
+        type: integer
+      user_id:
+        type: integer
+    required:
+    - project_id
+    - user_id
+    type: object
+  dto.ProjectCreateInputDTO:
+    properties:
+      end_date:
+        type: string
+      leader_id:
+        type: integer
+      name:
+        type: string
+      note:
+        type: string
+      project_id:
+        maxLength: 8
+        minLength: 4
+        type: string
+      start_date:
+        type: string
+      status:
+        enum:
+        - PENDING
+        - IN_PROGRESS
+        - COMPLETED
+        - CANCELLED
+        type: string
+      type_id:
+        type: integer
+      user_ids:
+        items:
+          type: integer
+        type: array
+    required:
+    - end_date
+    - leader_id
+    - name
+    - project_id
+    - start_date
+    - status
+    - type_id
+    type: object
+  dto.ProjectGetDTO:
+    properties:
+      created_at:
+        type: string
+      end_date:
+        type: string
+      id:
+        type: integer
+      leader_id:
+        type: integer
+      name:
+        type: string
+      note:
+        type: string
+      project_id:
+        type: string
+      project_type:
+        type: string
+      schedule_count:
+        type: integer
+      start_date:
+        type: string
+      status:
+        type: string
+      updated_at:
+        type: string
+      user_ids:
+        items:
+          type: integer
+        type: array
+    type: object
+  dto.ProjectTypeCreateDTO:
+    properties:
+      createdAt:
+        type: string
+      id:
+        type: integer
+      type:
+        type: string
+    required:
+    - type
+    type: object
+  dto.ProjectTypeGetDto:
+    properties:
+      created_at:
+        type: string
+      id:
+        type: integer
+      type:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  dto.ProjectTypeUpdateDTO:
+    properties:
+      id:
+        type: integer
+      type:
+        type: string
+      updated_at:
+        type: string
+    required:
+    - type
+    type: object
+  dto.ProjectUpdateDTO:
+    properties:
+      address:
+        type: string
+      end_date:
+        type: string
+      id:
+        type: integer
+      leader_id:
+        type: integer
+      name:
+        type: string
+      note:
+        type: string
+      project_id:
+        maxLength: 8
+        minLength: 4
+        type: string
+      start_date:
+        type: string
+      status:
+        enum:
+        - PENDING
+        - IN_PROGRESS
+        - COMPLETED
+        - CANCELLED
+        type: string
+      type_id:
+        type: integer
+      updated_at:
+        type: string
+      user_ids:
+        items:
+          type: integer
+        type: array
+    required:
+    - end_date
+    - name
+    - project_id
+    - start_date
+    - status
+    - type_id
+    type: object
+  dto.ScheduleCreateInputDTO:
+    properties:
+      created_at:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+      note:
+        type: string
+      project_id:
+        type: integer
+      required_date:
+        type: string
+      schedular_id:
+        type: integer
+      schedule_id:
+        type: string
+      status:
+        $ref: '#/definitions/constants.ScheduleStatus'
+      updated_at:
+        type: string
+    required:
+    - description
+    - required_date
+    - schedular_id
+    type: object
+  dto.ScheduleGetByProjectOutputDTO:
+    properties:
+      created_at:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+      note:
+        type: string
+      project_id:
+        type: integer
+      required_date:
+        type: string
+      schedular_id:
+        type: integer
+      schedule_id:
+        type: string
+      status:
+        $ref: '#/definitions/constants.ScheduleStatus'
+      updated_at:
+        type: string
+    type: object
+  dto.ShapeDTO:
+    properties:
+      created_at:
+        description: Timestamps are read-only (output only)
+        type: string
+      dimensions:
+        additionalProperties: true
+        type: object
+      id:
+        description: ID is read-only (output only)
+        type: integer
+      name:
+        description: Required fields for creation
+        type: string
+      path:
+        type: string
+      updated_at:
+        type: string
+    required:
+    - dimensions
+    - name
+    type: object
+  dto.ShapesGetDTO:
+    properties:
+      shapes:
+        items:
+          $ref: '#/definitions/dto.ShapeDTO'
+        type: array
+    type: object
+  dto.UserCreateDTO:
+    properties:
+      dob:
+        type: string
+      email:
+        type: string
+      employee_id:
+        type: string
+      first_name:
+        maxLength: 15
+        minLength: 4
+        type: string
+      last_name:
+        maxLength: 15
+        minLength: 4
+        type: string
+      nic:
+        type: string
+      password:
+        type: string
+      phone:
+        type: string
+      role:
+        type: string
+    required:
+    - dob
+    - email
+    - employee_id
+    - first_name
+    - last_name
+    - nic
+    - password
+    - phone
+    - role
+    type: object
+  dto.UserGetDTO:
+    properties:
+      created_at:
+        type: string
+      dob:
+        type: string
+      email:
+        type: string
+      employee_id:
+        type: string
+      first_name:
+        type: string
+      id:
+        type: integer
+      last_name:
+        type: string
+      nic:
+        type: string
+      phone:
+        type: string
+      role:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  dto.UserUpdateDTO:
+    properties:
+      dob:
+        type: string
+      email:
+        type: string
+      first_name:
+        maxLength: 15
+        minLength: 4
+        type: string
+      last_name:
+        maxLength: 15
+        minLength: 4
+        type: string
+      nic:
+        type: string
+      phone:
+        type: string
+      role:
+        type: string
+    required:
+    - dob
+    - email
+    - first_name
+    - last_name
+    - nic
+    - phone
+    - role
+    type: object
+  dto.UsersGetDTO:
+    properties:
+      users:
+        items:
+          $ref: '#/definitions/dto.UserGetDTO'
+        type: array
+    type: object
+info:
+  contact: {}
+paths:
+  /api/health:
+    get:
+      description: Check the health status of the API service
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Health status
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Health check endpoint
+      tags:
+      - Health
+  /api/login:
+    post:
+      consumes:
+      - application/json
+      description: Authenticate user with email and password
+      parameters:
+      - description: Login credentials
+        in: body
+        name: login
+        required: true
+        schema:
+          $ref: '#/definitions/dto.LoginInputDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Login successful
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: User login
+      tags:
+      - Authentication
+  /api/ping:
+    get:
+      description: Simple ping endpoint to test API connectivity
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Pong response
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Ping endpoint
+      tags:
+      - Health
+  /api/project:
+    get:
+      description: Get a list of all projects
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: List of projects
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - Bearer: []
+      summary: Get all projects
+      tags:
+      - Projects
+    post:
+      consumes:
+      - application/json
+      description: Create a new project with the provided details
+      parameters:
+      - description: Project creation data
+        in: body
+        name: project
+        required: true
+        schema:
+          $ref: '#/definitions/dto.ProjectCreateInputDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Project created successfully
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - Bearer: []
+      summary: Create a new project
+      tags:
+      - Projects
+  /api/project-type:
+    get:
+      description: Get a list of all project types
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: List of project types
+          schema:
+            items:
+              $ref: '#/definitions/dto.ProjectTypeGetDto'
+            type: array
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - Bearer: []
+      summary: Get all project types
+      tags:
+      - Project Types
+    post:
+      consumes:
+      - application/json
+      description: Create a new project type with the provided details
+      parameters:
+      - description: Project type creation data
+        in: body
+        name: projectType
+        required: true
+        schema:
+          $ref: '#/definitions/dto.ProjectTypeCreateDTO'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Project type created successfully
+          schema:
+            $ref: '#/definitions/dto.ProjectTypeCreateDTO'
+        "400":
+          description: Bad request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - Bearer: []
+      summary: Create a new project type
+      tags:
+      - Project Types
+  /api/project-type/{id}:
+    delete:
+      description: Delete a project type by its ID
+      parameters:
+      - description: Project Type ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: Project type deleted successfully
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - Bearer: []
+      summary: Delete a project type
+      tags:
+      - Project Types
+    get:
+      description: Get a project type's details by its ID
+      parameters:
+      - description: Project Type ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Project type details
+          schema:
+            $ref: '#/definitions/dto.ProjectTypeGetDto'
+        "400":
+          description: Bad request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Project type not found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - Bearer: []
+      summary: Get a project type by ID
+      tags:
+      - Project Types
+    put:
+      consumes:
+      - application/json
+      description: Update a project type's details by its ID
+      parameters:
+      - description: Project Type ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Project type update data
+        in: body
+        name: projectType
+        required: true
+        schema:
+          $ref: '#/definitions/dto.ProjectTypeUpdateDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Project type updated successfully
+          schema:
+            $ref: '#/definitions/dto.ProjectTypeUpdateDTO'
+        "400":
+          description: Bad request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - Bearer: []
+      summary: Update a project type
+      tags:
+      - Project Types
+  /api/project/{id}:
+    delete:
+      description: Delete a project by its ID
+      parameters:
+      - description: Project ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: Project deleted successfully
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - Bearer: []
+      summary: Delete a project
+      tags:
+      - Projects
+    get:
+      description: Get a project's details by its ID
+      parameters:
+      - description: Project ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Project details
+          schema:
+            $ref: '#/definitions/dto.ProjectGetDTO'
+        "400":
+          description: Bad request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - Bearer: []
+      summary: Get a project by ID
+      tags:
+      - Projects
+    put:
+      consumes:
+      - application/json
+      description: Update a project's details by its ID
+      parameters:
+      - description: Project ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Project update data
+        in: body
+        name: project
+        required: true
+        schema:
+          $ref: '#/definitions/dto.ProjectUpdateDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Project updated successfully
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - Bearer: []
+      summary: Update a project
+      tags:
+      - Projects
+  /api/project/{id}/users:
+    post:
+      consumes:
+      - application/json
+      description: Add a user to a specific project
+      parameters:
+      - description: Project ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: User to add to project
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/dto.ProjectAddUserDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: User added to project successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - Bearer: []
+      summary: Add user to project
+      tags:
+      - Projects
+  /api/schedule:
+    post:
+      consumes:
+      - application/json
+      description: Create a new schedule with the provided details
+      parameters:
+      - description: Schedule creation data
+        in: body
+        name: schedule
+        required: true
+        schema:
+          $ref: '#/definitions/dto.ScheduleCreateInputDTO'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Schedule created successfully
+          schema:
+            $ref: '#/definitions/dto.ScheduleCreateInputDTO'
+        "400":
+          description: Bad request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - Bearer: []
+      summary: Create a new schedule
+      tags:
+      - Schedules
+  /api/schedule/ByProject/:
+    get:
+      description: Get all schedules for a specific project
+      parameters:
+      - description: Project ID
+        in: query
+        name: project_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: List of schedules
+          schema:
+            items:
+              $ref: '#/definitions/dto.ScheduleGetByProjectOutputDTO'
+            type: array
+        "400":
+          description: Bad request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - Bearer: []
+      summary: Get schedules by project ID
+      tags:
+      - Schedules
+  /api/shapes:
+    get:
+      description: Get a list of all shapes
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.ShapesGetDTO'
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get all shapes
+      tags:
+      - shapes
+    post:
+      consumes:
+      - application/json
+      description: Create a new shape with the provided details
+      parameters:
+      - description: Shape creation data
+        in: body
+        name: shape
+        required: true
+        schema:
+          $ref: '#/definitions/dto.ShapeDTO'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dto.ShapeDTO'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Create a new shape
+      tags:
+      - shapes
+  /api/shapes/{id}:
+    delete:
+      description: Delete a shape by its ID
+      parameters:
+      - description: Shape ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Delete a shape
+      tags:
+      - shapes
+    get:
+      description: Get a shape's details by its ID
+      parameters:
+      - description: Shape ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.ShapeDTO'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get a shape by ID
+      tags:
+      - shapes
+  /api/users:
+    get:
+      description: Get a list of all users
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.UsersGetDTO'
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get all users
+      tags:
+      - users
+    post:
+      consumes:
+      - application/json
+      description: Create a new user with the provided details
+      parameters:
+      - description: User creation data
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UserCreateDTO'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dto.UserGetDTO'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Create a new user
+      tags:
+      - users
+  /api/users/{id}:
+    delete:
+      description: Delete a user by their ID
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Delete a user
+      tags:
+      - users
+    get:
+      description: Get a user's details by their ID
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.UserGetDTO'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get a user by ID
+      tags:
+      - users
+    put:
+      consumes:
+      - application/json
+      description: Update a user's details by their ID
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: User update data
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UserUpdateDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.UserGetDTO'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Update a user
+      tags:
+      - users
+swagger: "2.0"

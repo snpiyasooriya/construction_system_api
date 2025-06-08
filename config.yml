@@ -6,10 +6,5 @@ db:
   db: construction_system
 
 server:
-<<<<<<< Updated upstream
-  port: 8080
-=======
   port: 8080
   allowOrigin: https://con-dev.ratko.co
-
->>>>>>> Stashed changes
