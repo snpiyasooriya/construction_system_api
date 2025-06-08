@@ -1,3 +1,0 @@
-p, admin, /project_type/, POST
-p, user, data1, read
-g, alice, admin

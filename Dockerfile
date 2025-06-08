@@ -1,55 +1,23 @@
-# Build stage
-FROM golang:1.24-alpine AS builder
+# Use the official Golang image (use a correct version like 1.20)
+FROM golang:1.23
 
-# Install build dependencies
-RUN apk add --no-cache gcc musl-dev
-
-# Set working directory
+# Set the Current Working Directory inside the container
 WORKDIR /app
 
-# Copy go mod files
+# Copy go.mod and go.sum files
 COPY go.mod go.sum ./
 
-# Download dependencies
+# Download all dependencies. Dependencies will be cached if the go.mod and go.sum files are not changed
 RUN go mod download
 
-# Copy source code
+# Copy the source from the current directory to the Working Directory inside the container
 COPY . .
 
-# Build the application with optimizations
-RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -ldflags='-w -s' -o main .
+# Build the Go app
+RUN go build -o main ./cmd/server
 
-# Final stage
-FROM alpine:3.19
-
-# Install runtime dependencies
-RUN apk add --no-cache ca-certificates tzdata
-
-# Create non-root user
-RUN adduser -D -g '' appuser
-
-# Set working directory
-WORKDIR /app
-
-# Copy binary from builder
-COPY --from=builder /app/main .
-
-# Copy config files
-COPY --from=builder /app/config/model.conf ./config/
-COPY --from=builder /app/config/policy.csv ./config/
-COPY config.yml ./
-
-# Set ownership
-RUN chown -R appuser:appuser /app
-
-# Use non-root user
-USER appuser
-
-# Expose port
+# Expose port 8080 to the outside world
 EXPOSE 8080
 
-# Set environment variables
-ENV GIN_MODE=release
-
-# Run the binary with a startup delay to ensure database is ready
-CMD ["sh", "-c", "sleep 5 && ./main"]
+# Command to run the executable
+CMD ["./main"]
