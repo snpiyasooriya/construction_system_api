@@ -36,13 +36,35 @@ func (g *GORMScheduleRepository) Create(schedule *dto.ScheduleCreateInputDTO) er
 }
 
 func (g *GORMScheduleRepository) UpdateByID(schedule models.Schedule) (*models.Schedule, error) {
-	//TODO implement me
-	panic("implement me")
+	// Start a transaction
+	tx := g.db.Begin()
+
+	// Update the schedule
+	if err := tx.Save(&schedule).Error; err != nil {
+		tx.Rollback()
+		return nil, err
+	}
+
+	// Commit the transaction
+	if err := tx.Commit().Error; err != nil {
+		return nil, err
+	}
+
+	// Fetch the updated schedule with all relations
+	var updatedSchedule models.Schedule
+	if err := g.db.Where("id = ?", schedule.ID).Preload("Schedular").Preload("Reviewer").Preload("Project").First(&updatedSchedule).Error; err != nil {
+		return nil, err
+	}
+
+	return &updatedSchedule, nil
 }
 
 func (g *GORMScheduleRepository) GetByID(id uint) (*models.Schedule, error) {
-	//TODO implement me
-	panic("implement me")
+	var schedule models.Schedule
+	if err := g.db.Where("id = ?", id).Preload("Schedular").Preload("Reviewer").Preload("Project").First(&schedule).Error; err != nil {
+		return nil, err
+	}
+	return &schedule, nil
 }
 
 func (g *GORMScheduleRepository) Get() ([]models.Schedule, error) {

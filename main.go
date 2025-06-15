@@ -78,11 +78,13 @@ func main() {
 	getProjectTypeUsecase := usecase.NewGetProjectTypeUseCase(projectTypeRepo)
 	deleteProjectTypeUseCase := usecase.NewDeleteProjectTypeUseCase(projectTypeRepo)
 	updateProjectTypeUseCase := usecase.NewProjectTypeUpdateUseCase(projectTypeRepo)
+	getScheduleByIdUseCase := usecase.NewScheduleGetByIDUseCaseImpl(scheduleRepo)
+	scheduleUpdateUseCase := usecase.NewScheduleUpdateUseCaseImpl(scheduleRepo)
 
 	projectAddUserUseCase := usecase.NewProjectAddUserUseCase(projectRepo)
 	projectService := services.NewProjectCreateService(projectCreateUseCase, projectUpdateUseCase, projectDeleteUseCase, scheduleCreateUseCase, projectAddUserUseCase)
 	projectController := controllers.NewProjectController(projectService, projectsGetUseCase, projectGetByIDUseCase)
-	scheduleController := controllers.NewScheduleController(scheduleGetByProjectUseCase, scheduleCreateUseCase)
+	scheduleController := controllers.NewScheduleController(scheduleGetByProjectUseCase, scheduleCreateUseCase, getScheduleByIdUseCase, scheduleUpdateUseCase)
 	projectTypeController := controllers.NewProjectTypeController(createProjectTypeUseCase, getAllProjectTypesUseCase, getProjectTypeUsecase, deleteProjectTypeUseCase, updateProjectTypeUseCase)
 
 	// Shape components

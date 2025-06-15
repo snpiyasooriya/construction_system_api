@@ -59,7 +59,9 @@ func InitRoutes(
 			scheduleRoutes := protectedRoutes.Group("/schedule")
 			{
 				scheduleRoutes.POST("/", scheduleController.CreateSchedule)
-				scheduleRoutes.GET("/ByProject/", scheduleController.GetSchedulesByProjectID)
+				scheduleRoutes.GET("/project/:project_id", scheduleController.GetSchedulesByProjectID)
+				scheduleRoutes.GET("/:id", scheduleController.GetScheduleByID)
+				scheduleRoutes.PUT("/:id", scheduleController.UpdateSchedule)
 			}
 			shapeRoutes := protectedRoutes.Group("/shapes")
 			{

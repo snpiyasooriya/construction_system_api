@@ -1,9 +1,10 @@
 package models
 
 import (
+	"time"
+
 	"github.com/snpiyasooriya/construction_design_api/constants"
 	"gorm.io/gorm"
-	"time"
 )
 
 type Schedule struct {
