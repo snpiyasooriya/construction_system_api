@@ -1,0 +1,78 @@
+# Default ignored files
+/shelf/
+/workspace.xml
+# Editor-based HTTP Client requests
+/httpRequests/
+# Datasource local storage ignored files
+/dataSources/
+/dataSources.local.xml
+
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+main
+
+# Test binary, built with `go test -c`
+*.test
+
+# Output of the go coverage tool
+*.out
+coverage.html
+
+# Dependency directories
+vendor/
+
+# Go workspace file
+go.work
+
+# IDE specific files
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+
+# Environment variables
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+
+# Build directory
+/build/
+/bin/
+/dist/
+
+# Temporary files
+/tmp/
+*.tmp
+*.log
+
+# Air live reload
+tmp/
+
+# Database files
+*.db
+*.sqlite
+
+# Docker volumes
+database_dockerizing/
+api_volume/
+
+# Generated Swagger docs
+/docs/docs.go
+/docs/swagger.json
+/docs/swagger.yaml
+
+# Debug files
+__debug_bin
+debug
+
+# Config files that might contain sensitive information
+# Uncomment if you don't want to commit your config files
+config.yml
+# config-test.yml
