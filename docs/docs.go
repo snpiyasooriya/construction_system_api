@@ -2289,19 +2289,24 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "dimensions": {
-                    "type": "object",
-                    "additionalProperties": true
+                    "type": "object"
                 },
                 "id": {
                     "description": "ID is read-only (output only)",
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 1
+                },
+                "labels": {
+                    "type": "object"
                 },
                 "name": {
                     "description": "Required fields for creation",
-                    "type": "string"
+                    "type": "string",
+                    "example": "Rectangle"
                 },
                 "path": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "/shapes/rectangle.svg"
                 },
                 "updated_at": {
                     "type": "string"

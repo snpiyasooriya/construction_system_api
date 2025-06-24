@@ -450,15 +450,19 @@ definitions:
         description: Timestamps are read-only (output only)
         type: string
       dimensions:
-        additionalProperties: true
         type: object
       id:
         description: ID is read-only (output only)
+        example: 1
         type: integer
+      labels:
+        type: object
       name:
         description: Required fields for creation
+        example: Rectangle
         type: string
       path:
+        example: /shapes/rectangle.svg
         type: string
       updated_at:
         type: string

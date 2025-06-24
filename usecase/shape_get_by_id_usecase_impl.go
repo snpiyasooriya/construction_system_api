@@ -32,6 +32,7 @@ func (uc *ShapeGetByIDUseCaseImpl) Execute(id uint) (*dto.ShapeDTO, error) {
 		Name:       shape.Name,
 		Path:       shape.Path,
 		Dimensions: shape.Dimensions,
+		Labels:     shape.Labels,
 		// Note: CreatedAt and UpdatedAt would be set here if they were available in the entity
 	}, nil
 }

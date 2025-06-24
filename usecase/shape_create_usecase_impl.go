@@ -26,6 +26,7 @@ func (uc *ShapeCreateUseCaseImpl) Execute(input *dto.ShapeDTO) error {
 		Name:       input.Name,
 		Path:       input.Path,
 		Dimensions: input.Dimensions,
+		Labels:     input.Labels,
 	}
 
 	// Create shape
@@ -39,6 +40,7 @@ func (uc *ShapeCreateUseCaseImpl) Execute(input *dto.ShapeDTO) error {
 	input.Name = createdShape.Name
 	input.Path = createdShape.Path
 	input.Dimensions = createdShape.Dimensions
+	input.Labels = createdShape.Labels
 
 	// Note: CreatedAt and UpdatedAt would be set here if they were available in the entity
 
