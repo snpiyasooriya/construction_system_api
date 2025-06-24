@@ -15,6 +15,7 @@ func InitRoutes(
 	scheduleController *controllers2.ScheduleController,
 	projectTypeController *controllers2.ProjectTypeController,
 	shapeController *controllers2.ShapeController,
+	scheduleItemController *controllers2.ScheduleItemController,
 ) {
 	// Swagger documentation route
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(files.Handler))
@@ -70,6 +71,15 @@ func InitRoutes(
 				shapeRoutes.GET("/:id", shapeController.GetByID)
 				shapeRoutes.DELETE("/:id", shapeController.Delete)
 			}
+			scheduleItemRoutes := protectedRoutes.Group("/schedule-items")
+			{
+				scheduleItemRoutes.POST("/", scheduleItemController.CreateScheduleItem)
+				scheduleItemRoutes.GET("/:id", scheduleItemController.GetScheduleItemByID)
+				scheduleItemRoutes.PUT("/:id", scheduleItemController.UpdateScheduleItem)
+				scheduleItemRoutes.DELETE("/:id", scheduleItemController.DeleteScheduleItem)
+			}
+			// Add schedule items route under schedules
+			protectedRoutes.GET("/schedules/:scheduleId/items", scheduleItemController.GetScheduleItemsByScheduleID)
 			_ = protectedRoutes.Group("/authentication")
 			{
 			}

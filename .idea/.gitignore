@@ -74,5 +74,5 @@ debug
 
 # Config files that might contain sensitive information
 # Uncomment if you don't want to commit your config files
-config.yml
+# config.yml
 # config-test.yml

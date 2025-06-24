@@ -755,7 +755,239 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/schedule/ByProject/": {
+        "/api/schedule-items": {
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Create a new schedule item with the provided details",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "schedule-items"
+                ],
+                "summary": "Create a new schedule item",
+                "parameters": [
+                    {
+                        "description": "Schedule Item data",
+                        "name": "scheduleItem",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.ScheduleItemCreateInputDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ScheduleItemCreateOutputDTO"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/schedule-items/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Get a schedule item by its ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "schedule-items"
+                ],
+                "summary": "Get schedule item by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Schedule Item ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ScheduleItemGetByIDOutputDTO"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Update an existing schedule item with the provided details",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "schedule-items"
+                ],
+                "summary": "Update schedule item",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Schedule Item ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Schedule Item update data",
+                        "name": "scheduleItem",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.ScheduleItemUpdateInputDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ScheduleItemUpdateOutputDTO"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Delete a schedule item by its ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "schedule-items"
+                ],
+                "summary": "Delete schedule item",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Schedule Item ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ScheduleItemDeleteOutputDTO"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/schedule/project/{project_id}": {
             "get": {
                 "security": [
                     {
@@ -775,7 +1007,7 @@ const docTemplate = `{
                         "type": "integer",
                         "description": "Project ID",
                         "name": "project_id",
-                        "in": "query",
+                        "in": "path",
                         "required": true
                     }
                 ],
@@ -805,6 +1037,197 @@ const docTemplate = `{
                             "additionalProperties": {
                                 "type": "string"
                             }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/schedule/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Get a schedule's details by its ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Schedules"
+                ],
+                "summary": "Get a schedule by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Schedule ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Schedule details",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ScheduleGetByIDOutputDTO"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Schedule not found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Update a schedule's details by its ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Schedules"
+                ],
+                "summary": "Update a schedule",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Schedule ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Schedule update data",
+                        "name": "schedule",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.ScheduleUpdateDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Schedule updated successfully",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ScheduleUpdateOutputDTO"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Schedule not found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/schedules/{scheduleId}/items": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Get all schedule items for a specific schedule",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "schedule-items"
+                ],
+                "summary": "Get schedule items by schedule ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Schedule ID",
+                        "name": "scheduleId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/dto.ScheduleItemGetByScheduleOutputDTO"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
                         }
                     }
                 }
@@ -1509,6 +1932,50 @@ const docTemplate = `{
                 }
             }
         },
+        "dto.ScheduleGetByIDOutputDTO": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "note": {
+                    "type": "string"
+                },
+                "project_id": {
+                    "type": "integer"
+                },
+                "required_date": {
+                    "type": "string"
+                },
+                "reviewer": {
+                    "type": "string"
+                },
+                "reviewer_id": {
+                    "type": "integer"
+                },
+                "schedular": {
+                    "type": "string"
+                },
+                "schedular_id": {
+                    "type": "integer"
+                },
+                "schedule_id": {
+                    "type": "string"
+                },
+                "status": {
+                    "$ref": "#/definitions/constants.ScheduleStatus"
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
         "dto.ScheduleGetByProjectOutputDTO": {
             "type": "object",
             "properties": {
@@ -1530,6 +1997,15 @@ const docTemplate = `{
                 "required_date": {
                     "type": "string"
                 },
+                "reviewer": {
+                    "type": "string"
+                },
+                "reviewer_id": {
+                    "type": "integer"
+                },
+                "schedular": {
+                    "type": "string"
+                },
                 "schedular_id": {
                     "type": "integer"
                 },
@@ -1538,6 +2014,263 @@ const docTemplate = `{
                 },
                 "status": {
                     "$ref": "#/definitions/constants.ScheduleStatus"
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.ScheduleItemCreateInputDTO": {
+            "type": "object",
+            "required": [
+                "name",
+                "schedule_id",
+                "shape_dimensions",
+                "shape_id"
+            ],
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "example": "Steel Beam"
+                },
+                "schedule_id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "shape_dimensions": {
+                    "type": "object"
+                },
+                "shape_id": {
+                    "type": "integer",
+                    "example": 1
+                }
+            }
+        },
+        "dto.ScheduleItemCreateOutputDTO": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "name": {
+                    "type": "string",
+                    "example": "Steel Beam"
+                },
+                "schedule_id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "shape_dimensions": {
+                    "type": "object"
+                },
+                "shape_id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.ScheduleItemDeleteOutputDTO": {
+            "type": "object",
+            "properties": {
+                "deleted_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "message": {
+                    "type": "string",
+                    "example": "Schedule item deleted successfully"
+                }
+            }
+        },
+        "dto.ScheduleItemGetByIDOutputDTO": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "name": {
+                    "type": "string",
+                    "example": "Steel Beam"
+                },
+                "schedule_id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "schedule_name": {
+                    "type": "string",
+                    "example": "Foundation Schedule"
+                },
+                "shape_dimensions": {
+                    "type": "object"
+                },
+                "shape_id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "shape_name": {
+                    "type": "string",
+                    "example": "Rectangle"
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.ScheduleItemGetByScheduleOutputDTO": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "name": {
+                    "type": "string",
+                    "example": "Steel Beam"
+                },
+                "shape_dimensions": {
+                    "type": "object"
+                },
+                "shape_id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "shape_name": {
+                    "type": "string",
+                    "example": "Rectangle"
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.ScheduleItemUpdateInputDTO": {
+            "type": "object",
+            "required": [
+                "id",
+                "name",
+                "shape_dimensions",
+                "shape_id"
+            ],
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "name": {
+                    "type": "string",
+                    "example": "Updated Steel Beam"
+                },
+                "shape_dimensions": {
+                    "type": "object"
+                },
+                "shape_id": {
+                    "type": "integer",
+                    "example": 2
+                }
+            }
+        },
+        "dto.ScheduleItemUpdateOutputDTO": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "name": {
+                    "type": "string",
+                    "example": "Updated Steel Beam"
+                },
+                "schedule_id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "shape_dimensions": {
+                    "type": "object"
+                },
+                "shape_id": {
+                    "type": "integer",
+                    "example": 2
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.ScheduleUpdateDTO": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "note": {
+                    "type": "string"
+                },
+                "required_date": {
+                    "type": "string"
+                },
+                "reviewer_id": {
+                    "type": "integer"
+                },
+                "status": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.ScheduleUpdateOutputDTO": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "note": {
+                    "type": "string"
+                },
+                "project_id": {
+                    "type": "integer"
+                },
+                "required_date": {
+                    "type": "string"
+                },
+                "reviewer": {
+                    "type": "string"
+                },
+                "reviewer_id": {
+                    "type": "integer"
+                },
+                "schedular": {
+                    "type": "string"
+                },
+                "schedular_id": {
+                    "type": "integer"
+                },
+                "schedule_id": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
                 },
                 "updated_at": {
                     "type": "string"

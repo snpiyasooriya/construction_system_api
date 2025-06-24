@@ -5,7 +5,7 @@ import (
 	"gorm.io/gorm"
 )
 
-type ScheduleItemCrome struct {
+type ScheduleItem struct {
 	gorm.Model
 	Name            string `gorm:"type:varchar(20);not null"`
 	ShapeID         uint

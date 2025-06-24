@@ -207,6 +207,35 @@ definitions:
     - required_date
     - schedular_id
     type: object
+  dto.ScheduleGetByIDOutputDTO:
+    properties:
+      created_at:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+      note:
+        type: string
+      project_id:
+        type: integer
+      required_date:
+        type: string
+      reviewer:
+        type: string
+      reviewer_id:
+        type: integer
+      schedular:
+        type: string
+      schedular_id:
+        type: integer
+      schedule_id:
+        type: string
+      status:
+        $ref: '#/definitions/constants.ScheduleStatus'
+      updated_at:
+        type: string
+    type: object
   dto.ScheduleGetByProjectOutputDTO:
     properties:
       created_at:
@@ -221,12 +250,197 @@ definitions:
         type: integer
       required_date:
         type: string
+      reviewer:
+        type: string
+      reviewer_id:
+        type: integer
+      schedular:
+        type: string
       schedular_id:
         type: integer
       schedule_id:
         type: string
       status:
         $ref: '#/definitions/constants.ScheduleStatus'
+      updated_at:
+        type: string
+    type: object
+  dto.ScheduleItemCreateInputDTO:
+    properties:
+      name:
+        example: Steel Beam
+        type: string
+      schedule_id:
+        example: 1
+        type: integer
+      shape_dimensions:
+        type: object
+      shape_id:
+        example: 1
+        type: integer
+    required:
+    - name
+    - schedule_id
+    - shape_dimensions
+    - shape_id
+    type: object
+  dto.ScheduleItemCreateOutputDTO:
+    properties:
+      created_at:
+        type: string
+      id:
+        example: 1
+        type: integer
+      name:
+        example: Steel Beam
+        type: string
+      schedule_id:
+        example: 1
+        type: integer
+      shape_dimensions:
+        type: object
+      shape_id:
+        example: 1
+        type: integer
+      updated_at:
+        type: string
+    type: object
+  dto.ScheduleItemDeleteOutputDTO:
+    properties:
+      deleted_at:
+        type: string
+      id:
+        example: 1
+        type: integer
+      message:
+        example: Schedule item deleted successfully
+        type: string
+    type: object
+  dto.ScheduleItemGetByIDOutputDTO:
+    properties:
+      created_at:
+        type: string
+      id:
+        example: 1
+        type: integer
+      name:
+        example: Steel Beam
+        type: string
+      schedule_id:
+        example: 1
+        type: integer
+      schedule_name:
+        example: Foundation Schedule
+        type: string
+      shape_dimensions:
+        type: object
+      shape_id:
+        example: 1
+        type: integer
+      shape_name:
+        example: Rectangle
+        type: string
+      updated_at:
+        type: string
+    type: object
+  dto.ScheduleItemGetByScheduleOutputDTO:
+    properties:
+      created_at:
+        type: string
+      id:
+        example: 1
+        type: integer
+      name:
+        example: Steel Beam
+        type: string
+      shape_dimensions:
+        type: object
+      shape_id:
+        example: 1
+        type: integer
+      shape_name:
+        example: Rectangle
+        type: string
+      updated_at:
+        type: string
+    type: object
+  dto.ScheduleItemUpdateInputDTO:
+    properties:
+      id:
+        example: 1
+        type: integer
+      name:
+        example: Updated Steel Beam
+        type: string
+      shape_dimensions:
+        type: object
+      shape_id:
+        example: 2
+        type: integer
+    required:
+    - id
+    - name
+    - shape_dimensions
+    - shape_id
+    type: object
+  dto.ScheduleItemUpdateOutputDTO:
+    properties:
+      id:
+        example: 1
+        type: integer
+      name:
+        example: Updated Steel Beam
+        type: string
+      schedule_id:
+        example: 1
+        type: integer
+      shape_dimensions:
+        type: object
+      shape_id:
+        example: 2
+        type: integer
+      updated_at:
+        type: string
+    type: object
+  dto.ScheduleUpdateDTO:
+    properties:
+      description:
+        type: string
+      id:
+        type: integer
+      note:
+        type: string
+      required_date:
+        type: string
+      reviewer_id:
+        type: integer
+      status:
+        type: string
+    type: object
+  dto.ScheduleUpdateOutputDTO:
+    properties:
+      description:
+        type: string
+      id:
+        type: integer
+      note:
+        type: string
+      project_id:
+        type: integer
+      required_date:
+        type: string
+      reviewer:
+        type: string
+      reviewer_id:
+        type: integer
+      schedular:
+        type: string
+      schedular_id:
+        type: integer
+      schedule_id:
+        type: string
+      status:
+        type: string
       updated_at:
         type: string
     type: object
@@ -833,12 +1047,248 @@ paths:
       summary: Create a new schedule
       tags:
       - Schedules
-  /api/schedule/ByProject/:
+  /api/schedule-items:
+    post:
+      consumes:
+      - application/json
+      description: Create a new schedule item with the provided details
+      parameters:
+      - description: Schedule Item data
+        in: body
+        name: scheduleItem
+        required: true
+        schema:
+          $ref: '#/definitions/dto.ScheduleItemCreateInputDTO'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dto.ScheduleItemCreateOutputDTO'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - Bearer: []
+      summary: Create a new schedule item
+      tags:
+      - schedule-items
+  /api/schedule-items/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a schedule item by its ID
+      parameters:
+      - description: Schedule Item ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.ScheduleItemDeleteOutputDTO'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - Bearer: []
+      summary: Delete schedule item
+      tags:
+      - schedule-items
+    get:
+      consumes:
+      - application/json
+      description: Get a schedule item by its ID
+      parameters:
+      - description: Schedule Item ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.ScheduleItemGetByIDOutputDTO'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - Bearer: []
+      summary: Get schedule item by ID
+      tags:
+      - schedule-items
+    put:
+      consumes:
+      - application/json
+      description: Update an existing schedule item with the provided details
+      parameters:
+      - description: Schedule Item ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Schedule Item update data
+        in: body
+        name: scheduleItem
+        required: true
+        schema:
+          $ref: '#/definitions/dto.ScheduleItemUpdateInputDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.ScheduleItemUpdateOutputDTO'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - Bearer: []
+      summary: Update schedule item
+      tags:
+      - schedule-items
+  /api/schedule/{id}:
+    get:
+      description: Get a schedule's details by its ID
+      parameters:
+      - description: Schedule ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Schedule details
+          schema:
+            $ref: '#/definitions/dto.ScheduleGetByIDOutputDTO'
+        "400":
+          description: Bad request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Schedule not found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - Bearer: []
+      summary: Get a schedule by ID
+      tags:
+      - Schedules
+    put:
+      consumes:
+      - application/json
+      description: Update a schedule's details by its ID
+      parameters:
+      - description: Schedule ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Schedule update data
+        in: body
+        name: schedule
+        required: true
+        schema:
+          $ref: '#/definitions/dto.ScheduleUpdateDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Schedule updated successfully
+          schema:
+            $ref: '#/definitions/dto.ScheduleUpdateOutputDTO'
+        "400":
+          description: Bad request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Schedule not found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - Bearer: []
+      summary: Update a schedule
+      tags:
+      - Schedules
+  /api/schedule/project/{project_id}:
     get:
       description: Get all schedules for a specific project
       parameters:
       - description: Project ID
-        in: query
+        in: path
         name: project_id
         required: true
         type: integer
@@ -868,6 +1318,46 @@ paths:
       summary: Get schedules by project ID
       tags:
       - Schedules
+  /api/schedules/{scheduleId}/items:
+    get:
+      consumes:
+      - application/json
+      description: Get all schedule items for a specific schedule
+      parameters:
+      - description: Schedule ID
+        in: path
+        name: scheduleId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/dto.ScheduleItemGetByScheduleOutputDTO'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - Bearer: []
+      summary: Get schedule items by schedule ID
+      tags:
+      - schedule-items
   /api/shapes:
     get:
       description: Get a list of all shapes

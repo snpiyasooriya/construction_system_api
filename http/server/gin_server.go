@@ -2,12 +2,13 @@ package server
 
 import (
 	"fmt"
+	"net/http"
+
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/snpiyasooriya/construction_design_api/config"
 	controllers2 "github.com/snpiyasooriya/construction_design_api/http/controllers"
 	"github.com/snpiyasooriya/construction_design_api/http/routes"
-	"net/http"
 )
 
 type GinServer struct {
@@ -23,6 +24,7 @@ func NewGinServer(
 	scheduleController *controllers2.ScheduleController,
 	projectTypeController *controllers2.ProjectTypeController,
 	shapeController *controllers2.ShapeController,
+	scheduleItemController *controllers2.ScheduleItemController,
 ) *GinServer {
 	fmt.Println(conf.Server.AllowOrigin)
 	router := gin.Default()
@@ -40,7 +42,7 @@ func NewGinServer(
 		c.Header("Access-Control-Allow-Headers", "Origin, Content-Type, Authorization")
 		c.Status(http.StatusNoContent)
 	})
-	routes.InitRoutes(router, userController, authenticationController, projectController, scheduleController, projectTypeController, shapeController)
+	routes.InitRoutes(router, userController, authenticationController, projectController, scheduleController, projectTypeController, shapeController, scheduleItemController)
 	return &GinServer{
 		router: router,
 		port:   conf.Server.Port,

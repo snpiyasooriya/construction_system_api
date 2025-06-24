@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"fmt"
 	"net/http"
 	"strconv"
 
@@ -37,15 +36,14 @@ func NewScheduleController(
 // @Description Get all schedules for a specific project
 // @Tags Schedules
 // @Produce json
-// @Param project_id query int true "Project ID"
+// @Param project_id path int true "Project ID"
 // @Success 200 {array} dto.ScheduleGetByProjectOutputDTO "List of schedules"
 // @Failure 400 {object} map[string]string "Bad request"
 // @Failure 500 {object} map[string]string "Internal server error"
 // @Security Bearer
-// @Router /api/schedule/ByProject/ [get]
+// @Router /api/schedule/project/{project_id} [get]
 func (sc *ScheduleController) GetSchedulesByProjectID(c *gin.Context) {
 	projectID, err := strconv.ParseUint(c.Param("project_id"), 10, 64)
-	fmt.Println(projectID)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid project_id"})
 		return
@@ -101,7 +99,7 @@ func (sc *ScheduleController) CreateSchedule(c *gin.Context) {
 // @Tags Schedules
 // @Produce json
 // @Param id path int true "Schedule ID"
-// @Success 200 {object} models.Schedule "Schedule details"
+// @Success 200 {object} dto.ScheduleGetByIDOutputDTO "Schedule details"
 // @Failure 400 {object} map[string]string "Bad request"
 // @Failure 404 {object} map[string]string "Schedule not found"
 // @Failure 500 {object} map[string]string "Internal server error"

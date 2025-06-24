@@ -96,11 +96,26 @@ func main() {
 	shapeService := services.NewShapeService(shapeCreateUseCase, shapeGetUseCase, shapeGetByIDUseCase, shapeDeleteUseCase)
 	shapeController := controllers.NewShapeController(shapeService)
 
+	// Schedule Item components
+	scheduleItemRepo := repository.NewGORMScheduleItemRepository(db)
+	scheduleItemCreateUseCase := usecase.NewScheduleItemCreateUseCaseImpl(scheduleItemRepo, scheduleRepo, shapeRepo)
+	scheduleItemGetByIDUseCase := usecase.NewScheduleItemGetByIDUseCaseImpl(scheduleItemRepo)
+	scheduleItemGetByScheduleUseCase := usecase.NewScheduleItemGetByScheduleUseCaseImpl(scheduleItemRepo, scheduleRepo)
+	scheduleItemUpdateUseCase := usecase.NewScheduleItemUpdateUseCaseImpl(scheduleItemRepo, shapeRepo)
+	scheduleItemDeleteUseCase := usecase.NewScheduleItemDeleteUseCaseImpl(scheduleItemRepo)
+	scheduleItemController := controllers.NewScheduleItemController(
+		scheduleItemCreateUseCase,
+		scheduleItemGetByIDUseCase,
+		scheduleItemGetByScheduleUseCase,
+		scheduleItemUpdateUseCase,
+		scheduleItemDeleteUseCase,
+	)
+
 	//var projectTypeRepo interfaces2.ProjectTypeRepository
 	//projectTypeRepo = repository.NewProjectTypeGORMRepository(db)
 	//projectTypeCreateUseCase := usecase.NewProjectTypeCreateUseCase(projectTypeRepo)
 	//projectTypeController := controllers.NewProjectTypeController(projectTypeCreateUseCase)
-	server := server2.NewGinServer(conf, userController, authenticationController, projectController, scheduleController, projectTypeController, shapeController)
+	server := server2.NewGinServer(conf, userController, authenticationController, projectController, scheduleController, projectTypeController, shapeController, scheduleItemController)
 	server.Start()
 
 }
