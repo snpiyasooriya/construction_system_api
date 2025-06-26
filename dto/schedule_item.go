@@ -11,7 +11,7 @@ type ScheduleItemCreateInputDTO struct {
 	Name            string         `json:"name" binding:"required" example:"Steel Beam"`
 	ShapeID         uint           `json:"shape_id" binding:"required" example:"1"`
 	ScheduleID      uint           `json:"schedule_id" binding:"required" example:"1"`
-	ShapeDimensions datatypes.JSON `json:"shape_dimensions" binding:"required" swaggertype:"object"`
+	ShapeDimensions datatypes.JSON `json:"-" binding:"-"`
 }
 
 // ScheduleItemCreateOutputDTO represents the output after creating a schedule item

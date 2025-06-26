@@ -2025,7 +2025,6 @@ const docTemplate = `{
             "required": [
                 "name",
                 "schedule_id",
-                "shape_dimensions",
                 "shape_id"
             ],
             "properties": {
@@ -2036,9 +2035,6 @@ const docTemplate = `{
                 "schedule_id": {
                     "type": "integer",
                     "example": 1
-                },
-                "shape_dimensions": {
-                    "type": "object"
                 },
                 "shape_id": {
                     "type": "integer",

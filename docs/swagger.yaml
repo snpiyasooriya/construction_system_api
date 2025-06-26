@@ -273,15 +273,12 @@ definitions:
       schedule_id:
         example: 1
         type: integer
-      shape_dimensions:
-        type: object
       shape_id:
         example: 1
         type: integer
     required:
     - name
     - schedule_id
-    - shape_dimensions
     - shape_id
     type: object
   dto.ScheduleItemCreateOutputDTO:

@@ -2014,7 +2014,6 @@
             "required": [
                 "name",
                 "schedule_id",
-                "shape_dimensions",
                 "shape_id"
             ],
             "properties": {
@@ -2025,9 +2024,6 @@
                 "schedule_id": {
                     "type": "integer",
                     "example": 1
-                },
-                "shape_dimensions": {
-                    "type": "object"
                 },
                 "shape_id": {
                     "type": "integer",
