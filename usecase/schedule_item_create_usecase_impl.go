@@ -5,7 +5,6 @@ import (
 
 	"github.com/snpiyasooriya/construction_design_api/dto"
 	"github.com/snpiyasooriya/construction_design_api/interfaces/repository"
-	"github.com/snpiyasooriya/construction_design_api/pkg/utils"
 )
 
 type ScheduleItemCreateUseCaseImpl struct {
@@ -44,8 +43,6 @@ func (s *ScheduleItemCreateUseCaseImpl) Execute(scheduleItemCreateInputDTO dto.S
 	if shape == nil {
 		return nil, errors.New("shape not found")
 	}
-
-	scheduleItemCreateInputDTO.ShapeDimensions = utils.InterfaceToDataTypeJson(shape.Labels)
 
 	// Create the schedule item
 	scheduleItemOutput, err := s.scheduleItemRepo.Create(scheduleItemCreateInputDTO)
